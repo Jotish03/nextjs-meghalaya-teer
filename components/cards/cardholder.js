@@ -18,7 +18,6 @@ const CardHolder = ({ url, title }) => {
           width={500}
           height={500}
           className="rounded-lg "
-          layout="responsive"
           priority
           alt={title}
         />

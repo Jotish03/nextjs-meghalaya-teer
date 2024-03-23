@@ -10,7 +10,6 @@ import { MdDeleteOutline } from "react-icons/md";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -20,14 +19,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Loading from "@/pages/loading";
-import DateView from "../date";
-import { Separator } from "../ui/separator";
-import Announcement from "../announcement";
-import { Textarea } from "../ui/textarea";
-import EveningResultTable from "../eveningresult/eveningresulttable";
-import NoonResultTable from "../noonresult/noonresult";
 
-const HeroSection = () => {
+const NoonResultTable = () => {
   const { data: session, status } = useSession();
   console.log(session?.user?.role);
 
@@ -45,9 +38,11 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const morningResponse = await axios.get("/api/morningresult");
+        const morningResponse = await axios.get(
+          "/api/noon-table/noontablemorning"
+        );
         setMorningResult(morningResponse.data.result?.result || "XX");
-        const eveningResponse = await axios.get("/api/eveningresult");
+        const eveningResponse = await axios.get("/api/noon-table/noontableeve");
         setEveningResult(eveningResponse.data.result?.result || "XX");
         setLoading(false);
         setLoadingResult(false);
@@ -65,7 +60,7 @@ const HeroSection = () => {
     try {
       setLoadingMorningUpdate(true);
       const res = await axios.post(
-        "/api/morningresult",
+        "/api/noon-table/noontablemorning",
         { morningResult },
         {
           headers: {
@@ -75,14 +70,14 @@ const HeroSection = () => {
       );
 
       notificationctx.showNotification({
-        title: "Morning FR Result Added Successfully",
+        title: "Noon FR Result Added Successfully",
         description: "Result Added",
         variant: "blackToast",
       });
       setMorningResult(morningResult);
     } catch (error) {
       notificationctx.showNotification({
-        title: "Error Adding Result",
+        title: "Error Adding Noon Result",
         description: "Error!",
         variant: "destructive",
       });
@@ -96,7 +91,7 @@ const HeroSection = () => {
     try {
       setLoadingEveningUpdate(true);
       const res = await axios.post(
-        "/api/eveningresult",
+        "/api/noon-table/noontableeve",
         { eveningResult },
         {
           headers: {
@@ -106,7 +101,7 @@ const HeroSection = () => {
       );
 
       notificationctx.showNotification({
-        title: "Morning SR Result Added Successfully",
+        title: "Noon SR Result Added Successfully",
         description: "Result Added",
         variant: "blackToast",
       });
@@ -126,10 +121,10 @@ const HeroSection = () => {
   const handleMorningDelete = async () => {
     try {
       setLoadingMorningDelete(true);
-      const res = await axios.delete("/api/morningresult");
+      const res = await axios.delete("/api/noon-table/noontablemorning");
 
       notificationctx.showNotification({
-        title: "Result Deleted Successfully",
+        title: "Noon Result Deleted Successfully",
         description: "Data Deleted",
         variant: "destructive",
       });
@@ -149,10 +144,10 @@ const HeroSection = () => {
   const handleEveningDelete = async () => {
     try {
       setLoadingEveningDelete(true);
-      const res = await axios.delete("/api/eveningresult");
+      const res = await axios.delete("/api/noon-table/noontableeve");
 
       notificationctx.showNotification({
-        title: "Result Deleted Successfully",
+        title: "Noon Result Deleted Successfully",
         description: "Data Deleted",
         variant: "destructive",
       });
@@ -185,23 +180,9 @@ const HeroSection = () => {
       ) : (
         <>
           <main className="flex flex-col lg:mt-0 md:mt-0 flex-wrap items-center justify-center">
-            {/* <div
-              className="w-full md:w-auto md:flex-shrink-0 md:mr-8 mb-8 md:mb-0 relative"
-              style={{ maxWidth: "400px", width: "100%" }}
-            >
-              <div
-                className="relative"
-                style={{ width: "100%", paddingTop: "100%" }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Lottie isClickToPauseDisabled options={defaultOptions} />
-                </div>
-              </div>
-            </div> */}
-            <Announcement />
             <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 pl-10 pr-10 pb-5">
               <h1 className="text-center mb-2 font-medium">
-                Meghalaya Morning Result
+                Meghalaya Noon Result
               </h1>
               <Table className=" border-2 ">
                 {/* <TableCaption className="text-white">
@@ -210,14 +191,13 @@ const HeroSection = () => {
                 <TableCaption className="mt-[5px]">
                   Meghalaya Teer Result
                 </TableCaption> */}
-
                 <TableHeader>
                   <TableRow className="bg-[#99e4af] ">
                     <TableHead className="w-[100px] text-center font-bold text-black">
-                      F/R - 10:30 AM
+                      F/R - 12:30 PM
                     </TableHead>
                     <TableHead className="w-[100px] text-center font-bold text-black">
-                      S/R - 11:30 AM
+                      S/R - 01:30 PM
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -338,8 +318,6 @@ const HeroSection = () => {
               </Table>
             </div>
           </main>
-          <NoonResultTable />
-          <EveningResultTable />
           <main className="flex items-center justify-center">
             <div></div>
           </main>
@@ -349,4 +327,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default NoonResultTable;

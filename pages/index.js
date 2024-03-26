@@ -13,26 +13,23 @@ const Home = () => {
         <title>Meghalaya Teer - Teer Result All Over India</title>
         <meta
           name="description"
-          content="Shillong Teer provides teer results from various regions across India. Stay updated with the latest teer results."
+          content="Meghalaya Teer provides teer results from various regions across India. Stay updated with the latest teer results."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, teer result, teer result today, teer result online, teer result india"
+          content="teer, meghalaya teer, meghalaya sunday teer , meghalaya sunday teer result ,  teer, meghalaya , teer result, teer result today, teer result online, teer result india"
         />
-        <meta name="author" content="Shillong" />
+        <meta name="author" content="Meghalaya Teer Result" />
         <meta
           property="og:title"
-          content="Shillong Teer - Teer Result All Over India"
+          content="Meghalaya Teer - Teer Result All Over India"
         />
         <meta
           property="og:description"
-          content="Shillong Teer provides teer results from various regions across India. Stay updated with the latest teer results."
+          content="Meghalaya Teer provides teer results from various regions across India. Stay updated with the latest teer results."
         />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.shillongmorningsundayresult.com/"
-        />
+        <meta property="og:url" content="www.meghalayasundayteer.com" />
         {/* Add more meta tags as needed */}
       </Head>
 

@@ -146,7 +146,7 @@ const PreviousResult = () => {
       </Head>
 
       <section className="flex items-center justify-center mt-10">
-        {session && (
+        {session ? (
           <Button type="button" onClick={handleAddResult}>
             {loadingAddPage ? (
               <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
@@ -154,6 +154,10 @@ const PreviousResult = () => {
               "Add Previous Result"
             )}
           </Button>
+        ) : (
+          <div className="font-bold">
+            <h1>Morning Previous Result</h1>
+          </div>
         )}
       </section>
       {loadingPreviousResult ? (

@@ -16,7 +16,7 @@ const PreviousList = () => {
         <Separator className="my-4 w-[300px] " />
       </div>
 
-      <div className="flex flex-wrap  justify-center gap-1 lg:gap-2 sm:gap-1 md:gap-2">
+      <div className="flex flex-wrap  justify-center gap-2 lg:gap-2 sm:gap-1 md:gap-2">
         <Link href={"/previous-result"}>
           <CardHolder
             url="/images/pmorning.jpg"

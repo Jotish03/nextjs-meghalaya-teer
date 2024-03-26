@@ -10,27 +10,28 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Meghalaya Teer - Teer Result All Over India</title>
+        <title>
+          Meghalaya Teer Results Today & Across India | Fastest Updates
+        </title>
         <meta
           name="description"
-          content="Meghalaya Teer provides teer results from various regions across India. Stay updated with the latest teer results."
+          content="Get the fastest Meghalaya Teer results for today and all regions in India. Stay ahead of the game with the latest teer numbers at your fingertips."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, meghalaya sunday teer , meghalaya sunday teer result ,  teer, meghalaya , teer result, teer result today, teer result online, teer result india"
+          content="Meghalaya Teer, teer results, today's teer results, meghalaya teer, Khanapara Teer, Jowai Teer, archery betting, India teer results"
         />
-        <meta name="author" content="Meghalaya Teer Result" />
+        <meta name="author" content="Meghalaya Teer Results" />
         <meta
           property="og:title"
-          content="Meghalaya Teer - Teer Result All Over India"
+          content="Meghalaya Teer Results Today & Across India | Fastest Updates"
         />
         <meta
           property="og:description"
-          content="Meghalaya Teer provides teer results from various regions across India. Stay updated with the latest teer results."
+          content="Get the fastest Meghalaya Teer results for today and all regions in India. Stay ahead of the game with the latest teer numbers at your fingertips."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="www.meghalayasundayteer.com" />
-        {/* Add more meta tags as needed */}
+        <meta property="og:url" content="www.meghalayasundayteer.com/" />
       </Head>
 
       <main>

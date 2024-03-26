@@ -9,7 +9,7 @@ const BottomCard = () => {
         <Link href={"/common-number"}>
           <CardHolder url="/images/commonnumber.jpg" title={"Common Number"} />
         </Link>
-        <Link href={"/previous-result"}>
+        <Link href={"/previous-list"}>
           <CardHolder
             url="/images/previousresults.jpg"
             title={"Previous Result"}

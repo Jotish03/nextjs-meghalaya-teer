@@ -23,10 +23,10 @@ const PreviousList = () => {
             title={"Previous Morning Result"}
           />
         </Link>
-        <Link href={"#"}>
+        <Link href={"/previous-result-noon"}>
           <CardHolder url="/images/pnoon.jpg" title={"Previous Noon Result"} />
         </Link>
-        <Link href={"#"}>
+        <Link href={"/previous-result-eve"}>
           <CardHolder url="/images/peve.jpg" title={"Previous Eve Result"} />
         </Link>
       </div>

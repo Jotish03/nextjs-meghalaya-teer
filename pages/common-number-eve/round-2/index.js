@@ -55,7 +55,7 @@ const RoundTwo = () => {
     setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
       schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number/roundtwo", formData);
+      await axios.post("/api/common-number-eve/roundtwo", formData);
       setFormData({
         direct: "",
         house: "",
@@ -67,7 +67,7 @@ const RoundTwo = () => {
         variant: "blackToast",
       });
       console.log("Round 2 added successfully!");
-      router.push("/common-number");
+      router.push("/common-number-eve");
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
@@ -86,13 +86,13 @@ const RoundTwo = () => {
 
   const onCancel = (e) => {
     e.preventDefault();
-    router.push("/common-number");
+    router.push("/common-number-eve");
   };
 
   return (
     <>
       <Head>
-        <title>Add Round Two: Shillong Teer Result</title>
+        <title>Add Round Two: Meghalaya Teer Result</title>
         <meta
           name="description"
           content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."

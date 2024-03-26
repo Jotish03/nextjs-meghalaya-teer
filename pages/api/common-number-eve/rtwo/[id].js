@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   try {
     client = await MongoClient.connect("mongodb://localhost:27017");
     const db = client.db("nextjsteer");
-    const collection = db.collection("roundtwo");
+    const collection = db.collection("everoundtwo");
 
     const objectId = new ObjectId(id); // Correct usage with 'new'
 

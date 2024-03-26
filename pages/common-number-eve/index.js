@@ -35,7 +35,7 @@ const CommonNumber = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("/api/common-number/roundone");
+      const response = await axios.get("/api/common-number-eve/roundone");
       setRoundResults(response.data.reverse());
       setLoading(false);
       setLoadingStatesRoundOne(
@@ -53,7 +53,7 @@ const CommonNumber = () => {
 
   const fetchTwoData = async () => {
     try {
-      const response = await axios.get("/api/common-number/roundtwo");
+      const response = await axios.get("/api/common-number-eve/roundtwo");
       setRoundTwoResults(response.data.reverse());
       setLoading(false);
       setLoadingStatesRoundTwo(
@@ -73,7 +73,7 @@ const CommonNumber = () => {
     });
 
     try {
-      await axios.delete(`/api/common-number/rtwo/${_id}`);
+      await axios.delete(`/api/common-number-eve/rtwo/${_id}`);
       setRoundTwoResults((prevRoundTwoResults) =>
         prevRoundTwoResults.filter((result) => result._id !== _id)
       );
@@ -106,7 +106,7 @@ const CommonNumber = () => {
     });
 
     try {
-      await axios.delete(`/api/common-number/rone/${_id}`);
+      await axios.delete(`/api/common-number-eve/rone/${_id}`);
       setRoundResults((prevRoundResults) =>
         prevRoundResults.filter((result) => result._id !== _id)
       );
@@ -133,18 +133,18 @@ const CommonNumber = () => {
 
   const handleRoundOneButtonPush = (e) => {
     e.preventDefault();
-    router.push("/common-number/round-1");
+    router.push("/common-number-eve/round-1");
   };
 
   const handleRoundTwoButtonPush = (e) => {
     e.preventDefault();
-    router.push("/common-number/round-2");
+    router.push("/common-number-eve/round-2");
   };
 
   return (
     <>
       <Head>
-        <title>Common Number Analysis: Shillong Teer Result</title>
+        <title>Common Number Analysis: Meghalaya Teer Result</title>
         <meta
           name="description"
           content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."

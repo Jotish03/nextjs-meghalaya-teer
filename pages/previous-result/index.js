@@ -161,7 +161,7 @@ const PreviousResult = () => {
       ) : (
         <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
           <Table>
-            <TableCaption>Shillong Previous Result</TableCaption>
+            <TableCaption>Morning Previous Result</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">City</TableHead>

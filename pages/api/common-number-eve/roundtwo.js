@@ -6,7 +6,7 @@ export default async function roundTwoHandler(req, res) {
   try {
     client = await MongoClient.connect("mongodb://localhost:27017");
     const db = client.db("nextjsteer");
-    const collection = db.collection("roundtwo");
+    const collection = db.collection("everoundtwo");
 
     if (req.method === "GET") {
       // Handle GET request to fetch all data
@@ -23,8 +23,10 @@ export default async function roundTwoHandler(req, res) {
 
       await collection.insertOne(roundresult);
 
-      console.log("RoundTwo added to MongoDB:", roundresult);
-      return res.status(201).json({ message: "RoundTwo added successfully" });
+      console.log("Eve RoundTwo added to MongoDB:", roundresult);
+      return res
+        .status(201)
+        .json({ message: "Eve RoundTwo added successfully" });
     } else {
       return res.status(405).json({ message: "Method Not Allowed" });
     }

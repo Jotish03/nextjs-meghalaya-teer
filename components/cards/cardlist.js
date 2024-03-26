@@ -18,7 +18,7 @@ const CardList = () => {
             title={"Common Number Noon"}
           />
         </Link>
-        <Link href={"#"}>
+        <Link href={"/common-number-eve"}>
           <CardHolder
             url="/images/commonevening.jpg"
             title={"Common Number Evening"}
@@ -32,7 +32,7 @@ const CardList = () => {
         <Link href={"/dream-number"}>
           <CardHolder url="/images/dreamnumber.jpg" title={"Dream Number"} />
         </Link>
-        <Link href={"/previous-result"}>
+        <Link href={"/previous-list"}>
           <CardHolder
             url="/images/previousresults.jpg"
             title={"Previous Result"}

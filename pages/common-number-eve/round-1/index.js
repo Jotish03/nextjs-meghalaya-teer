@@ -62,7 +62,7 @@ const RoundOne = () => {
     setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
       schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number/roundone", formData);
+      await axios.post("/api/common-number-eve/roundone", formData);
       setFormData({
         direct: "",
         house: "",
@@ -74,7 +74,7 @@ const RoundOne = () => {
         variant: "blackToast",
       });
       console.log("Round 1 added successfully!");
-      router.push("/common-number");
+      router.push("/common-number-eve");
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
@@ -93,13 +93,13 @@ const RoundOne = () => {
 
   const onCancel = (e) => {
     e.preventDefault();
-    router.push("/common-number");
+    router.push("/common-number-eve");
   };
 
   return (
     <>
       <Head>
-        <title>Add Round One: Shillong Teer Result</title>
+        <title>Add Round One: Meghalaya Teer Result</title>
         <meta
           name="description"
           content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
@@ -129,7 +129,7 @@ const RoundOne = () => {
           <Card className="w-[550px]">
             <CardHeader>
               <CardTitle>Update Common Number</CardTitle>
-              <CardDescription>Round One</CardDescription>
+              <CardDescription>Eve Round One</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>

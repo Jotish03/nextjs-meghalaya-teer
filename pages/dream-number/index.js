@@ -16,33 +16,32 @@ const TableDemo = () => {
   return (
     <>
       <Head>
-        <title>Dream Number Analysis - Shillong Teer Result</title>
+        <title>Dream Number Analysis - Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Explore the dream numbers associated with previous Shillong Teer results along with analyses from other teer regions in India. Stay informed with dream number interpretations."
+          content="Explore dream number meanings associated with Meghalaya Teer results and interpretations. Stay informed with analyses from various teer regions in India."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, dream number, dream number analysis, teer result analysis, teer result interpretation"
+          content="teer, meghalaya teer, dreams, dream number result, dream number list, what is dream number, what is dream number in teer, what is dream number in teer games, dream data, dream numbers, dream number, dream number analysis, teer result analysis, teer result interpretation"
         />
         <meta
           name="author"
-          content="Shillong Teer Dream Number Analysis Team"
+          content="Meghalaya Teer Dream Number Analysis List"
         />
         <meta
           property="og:title"
-          content="Dream Number Analysis - Shillong Teer Result"
+          content="Dream Number Analysis - Meghalaya Teer Result"
         />
         <meta
           property="og:description"
-          content="Explore the dream numbers associated with previous Shillong Teer results along with analyses from other teer regions in India. Stay informed with dream number interpretations."
+          content="Explore dream number meanings associated with Meghalaya Teer results and interpretations. Stay informed with analyses from various teer regions in India."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.shillongmorningsundayresult.com/dream-number"
+          content="https://www.meghalayasundayteer.com/dream-number"
         />
-        {/* Add more meta tags as needed */}
       </Head>
 
       <main className="flex items-center justify-center p-1 m-8">

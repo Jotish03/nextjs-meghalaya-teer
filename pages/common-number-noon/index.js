@@ -144,28 +144,28 @@ const CommonNumber = () => {
   return (
     <>
       <Head>
-        <title>Common Number Analysis: Meghalaya Teer Result</title>
+        <title>Afternoon Common Numbers: Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+          content="Discover common numbers associated with afternoon Meghalaya Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, teer result, teer result history, teer result archive, common number analysis"
+          content="afternoon common numbers, meghalaya teer, common number list, common number, common number result, common number results, afternoon teer result, afternoon teer game, common numbers, meghalaya teer result"
         />
-        <meta name="author" content="Shillong Teer Result Archive" />
+        <meta name="author" content="Meghalaya Teer Result Archive" />
         <meta
           property="og:title"
-          content="Common Number Analysis: Shillong Teer Result"
+          content="Afternoon Common Numbers: Meghalaya Teer Result"
         />
         <meta
           property="og:description"
-          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+          content="Discover common numbers associated with afternoon Meghalaya Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.shillongmorningsundayresult.com/common-number"
+          content="https://www.meghalayasundayteer.com/common-number-noon"
         />
       </Head>
 

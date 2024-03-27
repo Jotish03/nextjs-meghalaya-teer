@@ -123,25 +123,25 @@ const PreviousResult = () => {
         <title>Noon Previous Teer Results - Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Check out the previous Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="Check out the previous Meghalaya Teer noon results along with results from other teer regions in India. Stay informed with the past teer results."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, teer result, previous teer result, teer result history, teer result archive"
+          content="teer, meghalaya teer, noon previous result, noon result, noon results, noon previous results, noon ,  teer result, previous teer result, teer result history, teer result archive"
         />
-        <meta name="author" content="Shillong Teer Result Archive" />
+        <meta name="author" content="Meghalaya Teer Result Archive" />
         <meta
           property="og:title"
-          content="Previous Teer Results - Shillong Teer Result"
+          content="Noon Previous Teer Results - Meghalaya Teer Result"
         />
         <meta
           property="og:description"
-          content="Check out the previous Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="Check out the noon previous Meghalaya Teer results along with results from other teer regions in India. Stay informed with the past teer results."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.shillongmorningsundayresult.com/previous-result"
+          content="https://www.meghalayasundayteer.com/previous-result-noon"
         />
       </Head>
 

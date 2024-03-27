@@ -99,26 +99,23 @@ const UserRegister = () => {
   return (
     <>
       <Head>
-        <title>Register - Shillong Teer Result</title>
+        <title>Register - Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Register to create an account and access personalized features. Stay updated with the latest Shillong Teer results."
+          content="Register to create an account and access personalized features. Stay updated with the latest Meghalaya Teer results."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, register, teer result, teer result today"
+          content="teer, meghalaya teer, register, teer result, teer result today"
         />
-        <meta name="author" content="Shillong Teer Result Team" />
-        <meta property="og:title" content="Register - Shillong Teer Result" />
+        <meta name="author" content="Meghalaya Teer Result Team" />
+        <meta property="og:title" content="Register - Meghalaya Teer Result" />
         <meta
           property="og:description"
-          content="Register to create an account and access personalized features. Stay updated with the latest Shillong Teer results."
+          content="Register to create an account and access personalized features. Stay updated with the latest Meghalaya Teer results."
         />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.shillongmorningsundayresult.com"
-        />
+        <meta property="og:url" content="https://www.meghalayasundayteer.com" />
         {/* Add more meta tags as needed */}
       </Head>
 

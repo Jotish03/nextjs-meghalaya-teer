@@ -74,28 +74,26 @@ const UserLogin = () => {
   return (
     <>
       <Head>
-        <title>Login - Shillong Teer Result</title>
+        <title>Login - Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Login to access personalized features and stay updated with the latest Shillong Teer results."
+          content="Login to access personalized features and stay updated with the latest Meghalaya Teer results."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, login, teer result, teer result today"
+          content="teer, meghalaya teer, login, teer result, teer result today"
         />
-        <meta name="author" content="Shillong Teer Result Team" />
-        <meta property="og:title" content="Login - Shillong Teer Result" />
+        <meta name="author" content="Meghalaya Teer Result Team" />
+        <meta property="og:title" content="Login - Meghalaya Teer Result" />
         <meta
           property="og:description"
-          content="Login to access personalized features and stay updated with the latest Shillong Teer results."
+          content="Login to access personalized features and stay updated with the latest Meghalaya Teer results."
         />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.shillongmorningsundayresult.com"
-        />
+        <meta property="og:url" content="https://www.meghalayasundayteer.com" />
         {/* Add more meta tags as needed */}
       </Head>
+
       {loading && <Loading />}
       <main className="flex items-center justify-center h-[80dvh] p-8">
         <Card className="w-[450px]">

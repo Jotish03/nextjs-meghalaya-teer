@@ -99,28 +99,28 @@ const RoundOne = () => {
   return (
     <>
       <Head>
-        <title>Add Round One: Meghalaya Teer Result</title>
+        <title>Add Evening Round One: Meghalaya Teer Result</title>
         <meta
           name="description"
-          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+          content="Add round one data for Evening Meghalaya Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
         />
         <meta
           name="keywords"
-          content="teer, shillong teer, teer result, teer result history, teer result archive, common number analysis"
+          content="teer, meghalaya teer, teer result, teer result history, teer result archive, common number analysis, add round one, evening teer result"
         />
-        <meta name="author" content="Shillong Teer Result Archive" />
+        <meta name="author" content="Meghalaya Teer Result Archive" />
         <meta
           property="og:title"
-          content="Common Number Analysis: Shillong Teer Result"
+          content="Add Evening Round One: Meghalaya Teer Result"
         />
         <meta
           property="og:description"
-          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+          content="Add round one data for Evening Meghalaya Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.shillongmorningsundayresult.com/common-number"
+          content="https://www.meghalayasundayteer.com/add-evening-round-one"
         />
       </Head>
 

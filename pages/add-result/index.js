@@ -193,7 +193,7 @@ const AddResult = () => {
                       name="fr"
                       value={formData.fr}
                       onChange={handleChange}
-                      placeholder="Enter City"
+                      placeholder="Enter FR"
                     />
                     {formErrors.fr && (
                       <span className="text-red-500">{formErrors.fr}</span>
@@ -206,7 +206,7 @@ const AddResult = () => {
                       name="sr"
                       value={formData.sr}
                       onChange={handleChange}
-                      placeholder="Enter City"
+                      placeholder="Enter SR"
                     />
                     {formErrors.sr && (
                       <span className="text-red-500">{formErrors.sr}</span>

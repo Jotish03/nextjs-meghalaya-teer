@@ -201,7 +201,7 @@ const UserRegister = () => {
               )}
               <div className="flex items-center justify-center mt-8">
                 <Label className="font-thin text-gray-400">
-                  Secure Admin Register: Shillong Teer{" "}
+                  Secure Admin Register: Meghalaya Teer{" "}
                 </Label>
               </div>
             </CardContent>

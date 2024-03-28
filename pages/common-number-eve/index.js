@@ -186,7 +186,7 @@ const CommonNumber = () => {
             )}
             <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
               <Table className="border-2">
-                <TableCaption>SHILLONG ROUND ONE</TableCaption>
+                <TableCaption>Meghalaya ROUND ONE</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-black">Direct</TableHead>
@@ -236,7 +236,7 @@ const CommonNumber = () => {
             )}
             <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
               <Table className="border-2">
-                <TableCaption>SHILLONG ROUND 2</TableCaption>
+                <TableCaption>Meghalaya ROUND 2</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-black">Direct</TableHead>

@@ -137,7 +137,7 @@ const UserLogin = () => {
 
             <div className="flex items-center justify-center mt-8">
               <Label className="font-thin text-gray-400">
-                Secure Admin Login: Shillong Teer{" "}
+                Secure Admin Login: Meghalaya Teer{" "}
               </Label>
             </div>
           </CardContent>

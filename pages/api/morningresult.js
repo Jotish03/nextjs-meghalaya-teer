@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   let client;
 
   try {
-    client = await MongoClient.connect("mongodb://localhost:27017");
+    client = await MongoClient.connect(process.env.MONGODB_URI);
     const db = client.db("nextjsteer");
     const collection = db.collection("morningresultdb");
 

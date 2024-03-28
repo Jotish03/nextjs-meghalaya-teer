@@ -26,7 +26,7 @@ export default async function registerauth(req, res) {
       const hashedPassword = hashSync(password, 10);
 
       // Connect to the MongoDB database
-      client = await MongoClient.connect("mongodb://localhost:27017");
+      client = await MongoClient.connect(process.env.MONGODB_URI);
       const db = client.db("nextjsteer");
       const collection = db.collection("users");
 

@@ -4,7 +4,7 @@ export default async function roundTwoHandler(req, res) {
   let client;
 
   try {
-    client = await MongoClient.connect("mongodb://localhost:27017");
+    client = await MongoClient.connect(process.env.MONGODB_URI);
     const db = client.db("nextjsteer");
     const collection = db.collection("everoundtwo");
 

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Button } from "../ui/button";
-import Lottie from "react-lottie";
-import animationData from "../../public/images/teerlogo.json";
 import { Input } from "../ui/input";
 import NotificationContext from "@/store/notification-store";
 import { IoMdAdd } from "react-icons/io";
@@ -20,311 +19,203 @@ import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Loading from "@/pages/loading";
 
+const fetchNoonResults = async () => {
+  const [morningResponse, eveningResponse] = await Promise.all([
+    axios.get("/api/noon-table/noontablemorning"),
+    axios.get("/api/noon-table/noontableeve"),
+  ]);
+  return {
+    morningResult: morningResponse.data.result?.result || "XX",
+    eveningResult: eveningResponse.data.result?.result || "XX",
+  };
+};
+
 const NoonResultTable = () => {
-  const { data: session, status } = useSession();
-  console.log(session?.user?.role);
-
-  const [morningResult, setMorningResult] = useState("XX");
-  const [eveningResult, setEveningResult] = useState("XX");
-  const [loadingResult, setLoadingResult] = useState(true);
-  const [loadingMorningUpdate, setLoadingMorningUpdate] = useState(false);
-  const [loadingEveningUpdate, setLoadingEveningUpdate] = useState(false);
-  const [loadingMorningDelete, setLoadingMorningDelete] = useState(false);
-  const [loadingEveningDelete, setLoadingEveningDelete] = useState(false);
-  const [loading, setLoading] = useState(true);
-
+  const { data: session } = useSession();
   const notificationctx = useContext(NotificationContext);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const morningResponse = await axios.get(
-          "/api/noon-table/noontablemorning"
-        );
-        setMorningResult(morningResponse.data.result?.result || "XX");
-        const eveningResponse = await axios.get("/api/noon-table/noontableeve");
-        setEveningResult(eveningResponse.data.result?.result || "XX");
-        setLoading(false);
-        setLoadingResult(false);
-      } catch (error) {
-        console.error("Error fetching results:", error);
-        setLoading(false);
-        setLoadingResult(false);
+  const [morningInput, setMorningInput] = useState("XX");
+  const [eveningInput, setEveningInput] = useState("XX");
+
+  const { data, isLoading, isError } = useQuery(
+    "noonResults",
+    fetchNoonResults,
+    {
+      refetchInterval: 60000, // Refetch every minute
+      onSuccess: (data) => {
+        setMorningInput(data.morningResult);
+        setEveningInput(data.eveningResult);
+      },
+    }
+  );
+
+  const updateResult = async ({ type, result }) => {
+    const endpoint =
+      type === "morning"
+        ? "/api/noon-table/noontablemorning"
+        : "/api/noon-table/noontableeve";
+    await axios.post(endpoint, { [type + "Result"]: result });
+  };
+
+  const deleteResult = async (type) => {
+    const endpoint =
+      type === "morning"
+        ? "/api/noon-table/noontablemorning"
+        : "/api/noon-table/noontableeve";
+    await axios.delete(endpoint);
+  };
+
+  const updateMutation = useMutation(updateResult, {
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries("noonResults");
+      if (variables.type === "morning") {
+        setMorningInput(variables.result);
+      } else {
+        setEveningInput(variables.result);
       }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleMorningUpdate = async () => {
-    try {
-      setLoadingMorningUpdate(true);
-      const res = await axios.post(
-        "/api/noon-table/noontablemorning",
-        { morningResult },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
       notificationctx.showNotification({
-        title: "Noon FR Result Added Successfully",
+        title: `Noon ${
+          variables.type === "morning" ? "FR" : "SR"
+        } Result Added Successfully`,
         description: "Result Added",
         variant: "blackToast",
       });
-      setMorningResult(morningResult);
-    } catch (error) {
+    },
+    onError: () => {
       notificationctx.showNotification({
         title: "Error Adding Noon Result",
         description: "Error!",
         variant: "destructive",
       });
-      console.error(error);
-    } finally {
-      setLoadingMorningUpdate(false);
-    }
-  };
-
-  const handleEveningUpdate = async () => {
-    try {
-      setLoadingEveningUpdate(true);
-      const res = await axios.post(
-        "/api/noon-table/noontableeve",
-        { eveningResult },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      notificationctx.showNotification({
-        title: "Noon SR Result Added Successfully",
-        description: "Result Added",
-        variant: "blackToast",
-      });
-      setEveningResult(eveningResult);
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error Adding Result",
-        description: "Error!",
-        variant: "destructive",
-      });
-      console.error(error);
-    } finally {
-      setLoadingEveningUpdate(false);
-    }
-  };
-
-  const handleMorningDelete = async () => {
-    try {
-      setLoadingMorningDelete(true);
-      const res = await axios.delete("/api/noon-table/noontablemorning");
-
-      notificationctx.showNotification({
-        title: "Noon Result Deleted Successfully",
-        description: "Data Deleted",
-        variant: "destructive",
-      });
-      setMorningResult("XX");
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error Deleting Result",
-        description: "Error!",
-        variant: "destructive",
-      });
-      console.error(error);
-    } finally {
-      setLoadingMorningDelete(false);
-    }
-  };
-
-  const handleEveningDelete = async () => {
-    try {
-      setLoadingEveningDelete(true);
-      const res = await axios.delete("/api/noon-table/noontableeve");
-
-      notificationctx.showNotification({
-        title: "Noon Result Deleted Successfully",
-        description: "Data Deleted",
-        variant: "destructive",
-      });
-      setEveningResult("XX");
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error Deleting Result",
-        description: "Error!",
-        variant: "destructive",
-      });
-      console.error(error);
-    } finally {
-      setLoadingEveningDelete(false);
-    }
-  };
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
     },
+  });
+
+  const deleteMutation = useMutation(deleteResult, {
+    onSuccess: (_, type) => {
+      queryClient.invalidateQueries("noonResults");
+      if (type === "morning") {
+        setMorningInput("XX");
+      } else {
+        setEveningInput("XX");
+      }
+      notificationctx.showNotification({
+        title: "Noon Result Deleted Successfully",
+        description: "Data Deleted",
+        variant: "destructive",
+      });
+    },
+    onError: () => {
+      notificationctx.showNotification({
+        title: "Error Deleting Result",
+        description: "Error!",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleUpdate = (type) => {
+    const result = type === "morning" ? morningInput : eveningInput;
+    updateMutation.mutate({ type, result });
   };
+
+  const handleDelete = (type) => {
+    deleteMutation.mutate(type);
+  };
+
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error fetching noon results</div>;
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <main className="flex flex-col lg:mt-0 md:mt-0 flex-wrap items-center justify-center">
-            <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 pl-10 pr-10 pb-5">
-              <h1 className="text-center mb-2 font-medium">
-                Meghalaya Noon Result
-              </h1>
-              <Table className=" border-2 ">
-                {/* <TableCaption className="text-white">
-                  <DateView />
-                </TableCaption>
-                <TableCaption className="mt-[5px]">
-                  Meghalaya Teer Result
-                </TableCaption> */}
-                <TableHeader>
-                  <TableRow className="bg-[#99e4af] ">
-                    <TableHead className="w-[100px] text-center font-bold text-black">
-                      F/R - 12:30 PM
-                    </TableHead>
-                    <TableHead className="w-[100px] text-center font-bold text-black">
-                      S/R - 01:30 PM
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="w-[100px] text-center font-medium">
-                      <div className="flex flex-col items-center justify-center">
-                        {loadingResult ? (
-                          <Skeleton className="w-[50px] h-[20px] rounded-full" />
-                        ) : (
-                          <>
-                            {session ? (
-                              <>
-                                <Input
-                                  type="text"
-                                  className="text-center"
-                                  value={morningResult}
-                                  onChange={(e) =>
-                                    setMorningResult(e.target.value)
-                                  }
-                                />
-                                <div className="flex gap-1 mt-4">
-                                  <Button
-                                    onClick={handleMorningUpdate}
-                                    disabled={loadingMorningUpdate}
-                                  >
-                                    {loadingMorningUpdate ? (
-                                      <ClipLoader
-                                        size={20}
-                                        color={"#000"}
-                                        loading={true}
-                                      />
-                                    ) : (
-                                      <IoMdAdd size={20} />
-                                    )}
-                                  </Button>
-                                  <Button
-                                    variant="destructive"
-                                    onClick={handleMorningDelete}
-                                    disabled={loadingMorningDelete}
-                                  >
-                                    {loadingMorningDelete ? (
-                                      <ClipLoader
-                                        size={20}
-                                        color={"#fff"}
-                                        loading={true}
-                                      />
-                                    ) : (
-                                      <MdDeleteOutline size={20} />
-                                    )}
-                                  </Button>
-                                </div>
-                              </>
-                            ) : (
-                              morningResult
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="w-[100px] text-center font-medium">
-                      <div className="flex flex-col items-center justify-center">
-                        {loadingResult ? (
-                          <Skeleton className="w-[50px] h-[20px] rounded-full" />
-                        ) : (
-                          <>
-                            {session ? (
-                              <>
-                                <Input
-                                  type="text"
-                                  className="text-center"
-                                  value={eveningResult}
-                                  onChange={(e) =>
-                                    setEveningResult(e.target.value)
-                                  }
-                                />
-                                <div className="flex gap-1 mt-4">
-                                  <Button
-                                    onClick={handleEveningUpdate}
-                                    disabled={loadingEveningUpdate}
-                                  >
-                                    {loadingEveningUpdate ? (
-                                      <ClipLoader
-                                        size={20}
-                                        color={"#000"}
-                                        loading={true}
-                                      />
-                                    ) : (
-                                      <IoMdAdd size={20} />
-                                    )}
-                                  </Button>
-                                  <Button
-                                    variant="destructive"
-                                    onClick={handleEveningDelete}
-                                    disabled={loadingEveningDelete}
-                                  >
-                                    {loadingEveningDelete ? (
-                                      <ClipLoader
-                                        size={20}
-                                        color={"#fff"}
-                                        loading={true}
-                                      />
-                                    ) : (
-                                      <MdDeleteOutline size={20} />
-                                    )}
-                                  </Button>
-                                </div>
-                              </>
-                            ) : (
-                              eveningResult
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-          </main>
-          <main className="flex items-center justify-center">
-            <div></div>
-          </main>
-        </>
-      )}
-    </>
+    <main className="flex flex-col lg:mt-0 md:mt-0 flex-wrap items-center justify-center">
+      <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 pl-10 pr-10 pb-5">
+        <h1 className="text-center mb-2 font-medium">Meghalaya Noon Result</h1>
+        <Table className="border-2">
+          <TableHeader>
+            <TableRow className="bg-[#99e4af]">
+              <TableHead className="w-[100px] text-center font-bold text-black">
+                F/R - 12:30 PM
+              </TableHead>
+              <TableHead className="w-[100px] text-center font-bold text-black">
+                S/R - 01:30 PM
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="w-[100px] text-center font-medium">
+                <ResultCell
+                  result={morningInput}
+                  setResult={setMorningInput}
+                  onUpdate={() => handleUpdate("morning")}
+                  onDelete={() => handleDelete("morning")}
+                  isUpdating={updateMutation.isLoading}
+                  isDeleting={deleteMutation.isLoading}
+                  session={session}
+                />
+              </TableCell>
+              <TableCell className="w-[100px] text-center font-medium">
+                <ResultCell
+                  result={eveningInput}
+                  setResult={setEveningInput}
+                  onUpdate={() => handleUpdate("evening")}
+                  onDelete={() => handleDelete("evening")}
+                  isUpdating={updateMutation.isLoading}
+                  isDeleting={deleteMutation.isLoading}
+                  session={session}
+                />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+    </main>
   );
 };
+
+const ResultCell = ({
+  result,
+  setResult,
+  onUpdate,
+  onDelete,
+  isUpdating,
+  isDeleting,
+  session,
+}) => (
+  <div className="flex flex-col items-center justify-center">
+    {session ? (
+      <>
+        <Input
+          type="text"
+          className="text-center"
+          value={result}
+          onChange={(e) => setResult(e.target.value)}
+        />
+        <div className="flex gap-1 mt-4">
+          <Button onClick={onUpdate} disabled={isUpdating}>
+            {isUpdating ? (
+              <ClipLoader size={20} color={"#000"} loading={true} />
+            ) : (
+              <IoMdAdd size={20} />
+            )}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={onDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <ClipLoader size={20} color={"#fff"} loading={true} />
+            ) : (
+              <MdDeleteOutline size={20} />
+            )}
+          </Button>
+        </div>
+      </>
+    ) : (
+      result
+    )}
+  </div>
+);
 
 export default NoonResultTable;

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,16 +12,12 @@ import {
 import { IoMdAdd } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import axios from "axios";
-
 import { useRouter } from "next/router";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-import { z } from "zod"; // Import z function from Zod
-
+import { z } from "zod";
 import NotificationContext from "@/store/notification-store";
 import Head from "next/head";
 
@@ -34,6 +31,8 @@ const RoundTwo = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     direct: "",
     house: "",
@@ -44,7 +43,29 @@ const RoundTwo = () => {
     house: "",
     ending: "",
   });
-  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
+
+  const addResultMutation = useMutation(
+    (data) => axios.post("/api/common-number-noon/roundtwo", data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("roundTwoData");
+        notificationctx.showNotification({
+          title: "Noon Round 2 Added Successfully",
+          description: "Success",
+          variant: "blackToast",
+        });
+        router.push("/common-number-noon");
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error adding result",
+          description: "Check fields",
+          variant: "destructive",
+        });
+        console.error("Error adding result:", error);
+      },
+    }
+  );
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,35 +73,13 @@ const RoundTwo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
-      schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number-noon/roundtwo", formData);
-      setFormData({
-        direct: "",
-        house: "",
-        ending: "",
-      });
-      notificationctx.showNotification({
-        title: "Noon Round 2 Added Successfully",
-        description: "Success",
-        variant: "blackToast",
-      });
-      console.log("Noon Round 2 added successfully!");
-      router.push("/common-number-noon");
+      schema.parse(formData);
+      addResultMutation.mutate(formData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
-      } else {
-        notificationctx.showNotification({
-          title: "Error adding result",
-          description: "Check fields",
-          variant: "destructive",
-        });
-        console.error("Error adding result:", error);
       }
-    } finally {
-      setLoadingAddResult(false);
     }
   };
 
@@ -171,8 +170,11 @@ const RoundTwo = () => {
                     <Button variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
-                    <Button type="submit">
-                      {loadingAddResult ? (
+                    <Button
+                      type="submit"
+                      disabled={addResultMutation.isLoading}
+                    >
+                      {addResultMutation.isLoading ? (
                         <ClipLoader
                           size={20}
                           color={`#000 dark:#000`}

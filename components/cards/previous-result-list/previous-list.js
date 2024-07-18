@@ -16,18 +16,20 @@ const PreviousList = () => {
         <Separator className="my-4 w-[300px] " />
       </div>
 
-      <div className="flex flex-wrap  justify-center gap-2 lg:gap-2 sm:gap-1 md:gap-2">
+      <div className="flex flex-wrap  justify-center gap-2 lg:gap-2 sm:gap-1 md:gap-2 ">
         <Link href={"/previous-result"}>
           <CardHolder
-            url="/images/pmorning.jpg"
+            url="/images/pmorning.webp"
             title={"Previous Morning Result"}
+            height={225}
+            width={349}
           />
         </Link>
         <Link href={"/previous-result-noon"}>
-          <CardHolder url="/images/pnoon.jpg" title={"Previous Noon Result"} />
+          <CardHolder url="/images/pnoon.webp" title={"Previous Noon Result"} />
         </Link>
         <Link href={"/previous-result-eve"}>
-          <CardHolder url="/images/peve.jpg" title={"Previous Eve Result"} />
+          <CardHolder url="/images/peve.webp" title={"Previous Eve Result"} />
         </Link>
       </div>
     </main>

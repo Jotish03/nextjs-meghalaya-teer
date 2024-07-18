@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,23 +12,12 @@ import {
 import { IoMdAdd } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
 import axios from "axios";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useRouter } from "next/router";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-import { z } from "zod"; // Import z function from Zod
-
+import { z } from "zod";
 import NotificationContext from "@/store/notification-store";
 import Head from "next/head";
 
@@ -41,6 +31,8 @@ const RoundOne = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     direct: "",
     house: "",
@@ -51,7 +43,29 @@ const RoundOne = () => {
     house: "",
     ending: "",
   });
-  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
+
+  const addResultMutation = useMutation(
+    (data) => axios.post("/api/common-number-noon/roundone", data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("roundOneData");
+        notificationctx.showNotification({
+          title: "Noon Round 1 Added Successfully",
+          description: "Success",
+          variant: "blackToast",
+        });
+        router.push("/common-number-noon");
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error adding result",
+          description: "Check fields",
+          variant: "destructive",
+        });
+        console.error("Error adding result:", error);
+      },
+    }
+  );
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,35 +73,13 @@ const RoundOne = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
-      schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number-noon/roundone", formData);
-      setFormData({
-        direct: "",
-        house: "",
-        ending: "",
-      });
-      notificationctx.showNotification({
-        title: "Noon Round 1 Added Successfully",
-        description: "Success",
-        variant: "blackToast",
-      });
-      console.log("Noon Round 1 added successfully!");
-      router.push("/common-number-noon");
+      schema.parse(formData);
+      addResultMutation.mutate(formData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
-      } else {
-        notificationctx.showNotification({
-          title: "Error adding result",
-          description: "Check fields",
-          variant: "destructive",
-        });
-        console.error("Error adding result:", error);
       }
-    } finally {
-      setLoadingAddResult(false);
     }
   };
 
@@ -178,8 +170,11 @@ const RoundOne = () => {
                     <Button variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
-                    <Button type="submit">
-                      {loadingAddResult ? (
+                    <Button
+                      type="submit"
+                      disabled={addResultMutation.isLoading}
+                    >
+                      {addResultMutation.isLoading ? (
                         <ClipLoader
                           size={20}
                           color={`#000 dark:#000`}

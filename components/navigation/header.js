@@ -25,6 +25,7 @@ const NavigationBar = () => {
             height={40}
             priority
             className="dark:invert"
+            alt="logo"
           />
         </Link>
         <Link href={"/"}>

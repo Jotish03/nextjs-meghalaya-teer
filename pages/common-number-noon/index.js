@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   Table,
   TableBody,
@@ -19,116 +20,82 @@ import SkeletonCommon from "@/components/skeleton-common";
 import Head from "next/head";
 import BottomCard from "@/components/cards/cardbottom";
 
+const fetchRoundOneData = async () => {
+  const response = await axios.get("/api/common-number-noon/roundone");
+  return response.data.reverse();
+};
+
+const fetchRoundTwoData = async () => {
+  const response = await axios.get("/api/common-number-noon/roundtwo");
+  return response.data.reverse();
+};
+
 const CommonNumber = () => {
-  const [roundresults, setRoundResults] = useState([]);
-  const [roundtworesults, setRoundTwoResults] = useState([]);
-  const [loadingStatesRoundOne, setLoadingStatesRoundOne] = useState([]);
-  const [loadingStatesRoundTwo, setLoadingStatesRoundTwo] = useState([]);
-  const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
   const router = useRouter();
   const notificationctx = useContext(NotificationContext);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const {
+    data: roundOneResults,
+    isLoading: isLoadingRoundOne,
+    isError: isErrorRoundOne,
+  } = useQuery("roundOneData", fetchRoundOneData);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/api/common-number-noon/roundone");
-      setRoundResults(response.data.reverse());
-      setLoading(false);
-      setLoadingStatesRoundOne(
-        Array.from({ length: response.data.length }, () => false)
-      );
-    } catch (error) {
-      console.error("Error fetching round one data:", error);
-      setLoading(false);
+  const {
+    data: roundTwoResults,
+    isLoading: isLoadingRoundTwo,
+    isError: isErrorRoundTwo,
+  } = useQuery("roundTwoData", fetchRoundTwoData);
+
+  const deleteRoundOneMutation = useMutation(
+    (_id) => axios.delete(`/api/common-number-noon/rone/${_id}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("roundOneData");
+        notificationctx.showNotification({
+          title: "Data Deleted",
+          description: "Data deleted successfully.",
+          variant: "destructive",
+        });
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error!",
+          description: error.message || "Error has occurred",
+          variant: "error",
+        });
+      },
     }
+  );
+
+  const deleteRoundTwoMutation = useMutation(
+    (_id) => axios.delete(`/api/common-number-noon/rtwo/${_id}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("roundTwoData");
+        notificationctx.showNotification({
+          title: "Data Deleted",
+          description: "Data deleted successfully.",
+          variant: "destructive",
+        });
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error!",
+          description: error.message || "Error has occurred",
+          variant: "error",
+        });
+      },
+    }
+  );
+
+  const handleRoundOneDelete = (_id) => {
+    deleteRoundOneMutation.mutate(_id);
   };
 
-  useEffect(() => {
-    fetchTwoData();
-  }, []);
-
-  const fetchTwoData = async () => {
-    try {
-      const response = await axios.get("/api/common-number-noon/roundtwo");
-      setRoundTwoResults(response.data.reverse());
-      setLoading(false);
-      setLoadingStatesRoundTwo(
-        Array.from({ length: response.data.length }, () => false)
-      );
-    } catch (error) {
-      console.error("Error fetching round two data:", error);
-      setLoading(false);
-    }
-  };
-
-  const handleRoundTwoDelete = async (_id, index) => {
-    setLoadingStatesRoundTwo((prevLoadingStates) => {
-      const updatedLoadingStates = [...prevLoadingStates];
-      updatedLoadingStates[index] = true;
-      return updatedLoadingStates;
-    });
-
-    try {
-      await axios.delete(`/api/common-number-noon/rtwo/${_id}`);
-      setRoundTwoResults((prevRoundTwoResults) =>
-        prevRoundTwoResults.filter((result) => result._id !== _id)
-      );
-      notificationctx.showNotification({
-        title: "Data Deleted",
-        description: "Data deleted successfully.",
-        variant: "destructive",
-      });
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error!",
-        description: error.message || "Error has occurred",
-        variant: "error",
-      });
-      console.error("Error deleting round two data:", error);
-    } finally {
-      setLoadingStatesRoundTwo((prevLoadingStates) => {
-        const updatedLoadingStates = [...prevLoadingStates];
-        updatedLoadingStates[index] = false;
-        return updatedLoadingStates;
-      });
-    }
-  };
-
-  const handleRoundOneDelete = async (_id, index) => {
-    setLoadingStatesRoundOne((prevLoadingStates) => {
-      const updatedLoadingStates = [...prevLoadingStates];
-      updatedLoadingStates[index] = true;
-      return updatedLoadingStates;
-    });
-
-    try {
-      await axios.delete(`/api/common-number-noon/rone/${_id}`);
-      setRoundResults((prevRoundResults) =>
-        prevRoundResults.filter((result) => result._id !== _id)
-      );
-      notificationctx.showNotification({
-        title: "Data Deleted ",
-        description: "Data deleted successfully.",
-        variant: "destructive",
-      });
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error!",
-        description: error.message || "Error has occurred",
-        variant: "error",
-      });
-      console.error("Error deleting round one data:", error);
-    } finally {
-      setLoadingStatesRoundOne((prevLoadingStates) => {
-        const updatedLoadingStates = [...prevLoadingStates];
-        updatedLoadingStates[index] = false;
-        return updatedLoadingStates;
-      });
-    }
+  const handleRoundTwoDelete = (_id) => {
+    deleteRoundTwoMutation.mutate(_id);
   };
 
   const handleRoundOneButtonPush = (e) => {
@@ -140,6 +107,14 @@ const CommonNumber = () => {
     e.preventDefault();
     router.push("/common-number-noon/round-2");
   };
+
+  if (isLoadingRoundOne || isLoadingRoundTwo) {
+    return <SkeletonCommon />;
+  }
+
+  if (isErrorRoundOne || isErrorRoundTwo) {
+    return <div>Error loading data</div>;
+  }
 
   return (
     <>
@@ -169,128 +144,110 @@ const CommonNumber = () => {
         />
       </Head>
 
-      {loading ? (
-        <SkeletonCommon />
-      ) : (
-        <>
-          <header className="flex flex-wrap items-center justify-center mt-14">
-            <p className="font-bold text-xl">Common Number Analysis</p>
-          </header>
-          <main className="flex flex-col items-center justify-center gap-18 mt-8 p-4 ">
-            {session && (
-              <section className="flex items-center justify-center mt-0">
-                <Button type="button" onClick={handleRoundOneButtonPush}>
-                  Add Data for Round 1
-                </Button>
-              </section>
-            )}
-            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
-              <Table className="border-2">
-                <TableCaption>Meghalaya ROUND ONE</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-black">Direct</TableHead>
-                    <TableHead className="text-black">House</TableHead>
-                    <TableHead className="w-20 text-black">Ending</TableHead>
-                    {session && <TableHead>Actions</TableHead>}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {roundresults.map((result, index) => (
-                    <TableRow key={result._id}>
-                      <TableCell>{result.direct}</TableCell>
-                      <TableCell>{result.house}</TableCell>
-                      <TableCell>{result.ending}</TableCell>
-                      {session && (
-                        <TableCell className="w-0">
-                          <Button
-                            variant="destructive"
-                            onClick={() =>
-                              handleRoundOneDelete(result._id, index)
-                            }
-                            disabled={loadingStatesRoundOne[index]}
-                          >
-                            {loadingStatesRoundOne[index] ? (
-                              <ClipLoader
-                                size={20}
-                                color={"#fff"}
-                                loading={true}
-                              />
-                            ) : (
-                              <MdDeleteOutline size={20} />
-                            )}
-                          </Button>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </section>
-            {session && (
-              <section className="flex items-center justify-center mt-0">
-                <Button type="button" onClick={handleRoundTwoButtonPush}>
-                  Add Data for Round 2
-                </Button>
-              </section>
-            )}
-            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
-              <Table className="border-2">
-                <TableCaption>Meghalaya ROUND 2</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-black">Direct</TableHead>
-                    <TableHead className="text-black">House</TableHead>
-                    <TableHead className="w-20 text-black">Ending</TableHead>
-                    {session && <TableHead>Actions</TableHead>}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {roundtworesults.map((result, index) => (
-                    <TableRow key={result._id}>
-                      <TableCell>{result.direct}</TableCell>
-                      <TableCell>{result.house}</TableCell>
-                      <TableCell>{result.ending}</TableCell>
-                      {session && (
-                        <TableCell className="w-0">
-                          <Button
-                            variant="destructive"
-                            onClick={() =>
-                              handleRoundTwoDelete(result._id, index)
-                            }
-                            disabled={loadingStatesRoundTwo[index]}
-                          >
-                            {loadingStatesRoundTwo[index] ? (
-                              <ClipLoader
-                                size={20}
-                                color={"#fff"}
-                                loading={true}
-                              />
-                            ) : (
-                              <MdDeleteOutline size={20} />
-                            )}
-                          </Button>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </section>
+      <header className="flex flex-wrap items-center justify-center mt-14">
+        <p className="font-bold text-xl">Common Number Analysis</p>
+      </header>
+      <main className="flex flex-col items-center justify-center gap-18 mt-8 p-4 ">
+        {session && (
+          <section className="flex items-center justify-center mt-0">
+            <Button type="button" onClick={handleRoundOneButtonPush}>
+              Add Data for Round 1
+            </Button>
+          </section>
+        )}
+        <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
+          <Table className="border-2">
+            <TableCaption>Meghalaya ROUND ONE</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-black">Direct</TableHead>
+                <TableHead className="text-black">House</TableHead>
+                <TableHead className="w-20 text-black">Ending</TableHead>
+                {session && <TableHead>Actions</TableHead>}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {roundOneResults.map((result) => (
+                <TableRow key={result._id}>
+                  <TableCell>{result.direct}</TableCell>
+                  <TableCell>{result.house}</TableCell>
+                  <TableCell>{result.ending}</TableCell>
+                  {session && (
+                    <TableCell className="w-0">
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleRoundOneDelete(result._id)}
+                        disabled={deleteRoundOneMutation.isLoading}
+                      >
+                        {deleteRoundOneMutation.isLoading ? (
+                          <ClipLoader size={20} color={"#fff"} loading={true} />
+                        ) : (
+                          <MdDeleteOutline size={20} />
+                        )}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+        {session && (
+          <section className="flex items-center justify-center mt-0">
+            <Button type="button" onClick={handleRoundTwoButtonPush}>
+              Add Data for Round 2
+            </Button>
+          </section>
+        )}
+        <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
+          <Table className="border-2">
+            <TableCaption>Meghalaya ROUND 2</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-black">Direct</TableHead>
+                <TableHead className="text-black">House</TableHead>
+                <TableHead className="w-20 text-black">Ending</TableHead>
+                {session && <TableHead>Actions</TableHead>}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {roundTwoResults.map((result) => (
+                <TableRow key={result._id}>
+                  <TableCell>{result.direct}</TableCell>
+                  <TableCell>{result.house}</TableCell>
+                  <TableCell>{result.ending}</TableCell>
+                  {session && (
+                    <TableCell className="w-0">
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleRoundTwoDelete(result._id)}
+                        disabled={deleteRoundTwoMutation.isLoading}
+                      >
+                        {deleteRoundTwoMutation.isLoading ? (
+                          <ClipLoader size={20} color={"#fff"} loading={true} />
+                        ) : (
+                          <MdDeleteOutline size={20} />
+                        )}
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
 
-            <div className="mt-4 text-center  ">
-              <p className="text-[15px] font-thin text-black">
-                Disclaimer : These common numbers are purely based on certain
-                calculations done using past results. There is no guarantee of
-                the accuracy of these numbers.
-              </p>
-            </div>
-            <div>
-              <BottomCard />
-            </div>
-          </main>
-        </>
-      )}
+        <div className="mt-4 text-center  ">
+          <p className="text-[15px] font-thin text-black">
+            Disclaimer : These common numbers are purely based on certain
+            calculations done using past results. There is no guarantee of the
+            accuracy of these numbers.
+          </p>
+        </div>
+        <div>
+          <BottomCard />
+        </div>
+      </main>
     </>
   );
 };

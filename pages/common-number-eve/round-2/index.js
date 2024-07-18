@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,16 +12,12 @@ import {
 import { IoMdAdd } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import axios from "axios";
-
 import { useRouter } from "next/router";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-import { z } from "zod"; // Import z function from Zod
-
+import { z } from "zod";
 import NotificationContext from "@/store/notification-store";
 import Head from "next/head";
 
@@ -34,53 +31,53 @@ const RoundTwo = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    direct: "",
-    house: "",
-    ending: "",
-  });
-  const [formErrors, setFormErrors] = useState({
-    direct: "",
-    house: "",
-    ending: "",
-  });
-  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
+  const queryClient = useQueryClient();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoadingAddResult(true); // Set loading state to true when submitting the form
-    try {
-      schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number-eve/roundtwo", formData);
-      setFormData({
-        direct: "",
-        house: "",
-        ending: "",
-      });
-      notificationctx.showNotification({
-        title: "Round 2 Added Successfully",
-        description: "Success",
-        variant: "blackToast",
-      });
-      console.log("Round 2 added successfully!");
-      router.push("/common-number-eve");
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setFormErrors(error.flatten().fieldErrors);
-      } else {
+  const addRoundTwoMutation = useMutation(
+    (formData) => axios.post("/api/common-number-eve/roundtwo", formData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("roundTwoData");
+        notificationctx.showNotification({
+          title: "Round 2 Added Successfully",
+          description: "Success",
+          variant: "blackToast",
+        });
+        router.push("/common-number-eve");
+      },
+      onError: (error) => {
         notificationctx.showNotification({
           title: "Error adding result",
           description: "Check fields",
           variant: "destructive",
         });
         console.error("Error adding result:", error);
+      },
+    }
+  );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      direct: e.target.direct.value,
+      house: e.target.house.value,
+      ending: e.target.ending.value,
+    };
+
+    try {
+      schema.parse(formData);
+      addRoundTwoMutation.mutate(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors = error.flatten().fieldErrors;
+        Object.keys(fieldErrors).forEach((key) => {
+          notificationctx.showNotification({
+            title: `${key} Error`,
+            description: fieldErrors[key][0],
+            variant: "destructive",
+          });
+        });
       }
-    } finally {
-      setLoadingAddResult(false);
     }
   };
 
@@ -132,13 +129,8 @@ const RoundTwo = () => {
                     <Input
                       id="direct"
                       name="direct"
-                      value={formData.direct}
-                      onChange={handleChange}
                       placeholder="Enter Direct Number"
                     />
-                    {formErrors.direct && (
-                      <span className="text-red-500">{formErrors.direct}</span>
-                    )}
                   </div>
 
                   <div className="flex flex-col space-y-1.5">
@@ -146,33 +138,26 @@ const RoundTwo = () => {
                     <Input
                       id="house"
                       name="house"
-                      value={formData.house}
-                      onChange={handleChange}
                       placeholder="Enter House Number"
                     />
-                    {formErrors.house && (
-                      <span className="text-red-500">{formErrors.house}</span>
-                    )}
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="ending">Ending</Label>
                     <Input
                       id="ending"
                       name="ending"
-                      value={formData.ending}
-                      onChange={handleChange}
                       placeholder="Enter Ending Number"
                     />
-                    {formErrors.ending && (
-                      <span className="text-red-500">{formErrors.ending}</span>
-                    )}
                   </div>
                   <CardFooter className="flex justify-end gap-2 mr-[-20px]">
                     <Button variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
-                    <Button type="submit">
-                      {loadingAddResult ? (
+                    <Button
+                      type="submit"
+                      disabled={addRoundTwoMutation.isLoading}
+                    >
+                      {addRoundTwoMutation.isLoading ? (
                         <ClipLoader
                           size={20}
                           color={`#000 dark:#000`}

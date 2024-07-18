@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
 import { format } from "date-fns";
@@ -18,90 +19,69 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import SkeletonTable from "@/components/skeleton-table";
 import NotificationContext from "@/store/notification-store";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import BottomCard from "@/components/cards/cardbottom";
 
 const PreviousResult = () => {
   const router = useRouter();
-  const [results, setResults] = useState([]);
-  const [loadingPreviousResult, setLoadingPreviousResult] = useState(true);
-  const [loadingAddPage, setLoadingAddPage] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loadingStates, setLoadingStates] = useState([]);
   const notificationctx = useContext(NotificationContext);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
 
   const resultsPerPage = 10;
 
-  useEffect(() => {
-    fetchData();
-  }, [currentPage]);
-
-  useEffect(() => {
-    setLoadingStates(Array.from({ length: results.length }, () => false));
-  }, [results]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/api/previousresultnoon");
-      setResults(response.data.reverse());
-      setLoadingPreviousResult(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoadingPreviousResult(false);
-    }
+  const fetchResults = async () => {
+    const response = await axios.get("/api/previousresultnoon");
+    return response.data.reverse();
   };
+
+  const { data: results, isLoading } = useQuery(
+    "previousNoonResults",
+    fetchResults,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const deleteMutation = useMutation(
+    (id) => axios.delete(`/api/noon-id/${id}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("previousNoonResults");
+        notificationctx.showNotification({
+          title: "Noon Result Deleted Successfully",
+          description: "Data deleted!",
+          variant: "destructive",
+        });
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error!",
+          description: error.message || "Error has occurred",
+          variant: "destructive",
+        });
+      },
+    }
+  );
 
   const handleAddResult = async (e) => {
     e.preventDefault();
     try {
       await router.push("/add-result-noon");
-      setLoadingAddPage(true);
-      fetchData();
     } catch (error) {
-      console.error("Error adding result:", error);
-      setLoadingAddPage(true);
+      console.error("Error navigating to add result page:", error);
     }
   };
 
-  const handleDelete = async (_id, index) => {
-    setLoadingStates((prevLoadingStates) => {
-      const updatedLoadingStates = [...prevLoadingStates];
-      updatedLoadingStates[index] = true;
-      return updatedLoadingStates;
-    });
-
-    try {
-      await axios.delete(`/api/noon-id/${_id}`);
-      setResults((prevResults) =>
-        prevResults.filter((result) => result._id !== _id)
-      );
-      notificationctx.showNotification({
-        title: "Noon Result Deleted Successfully",
-        description: "Data deleted!",
-        variant: "destructive",
-      });
-    } catch (error) {
-      notificationctx.showNotification({
-        title: "Error!",
-        description: error.message || "Error has occurred",
-        variant: "destructive",
-      });
-      console.error("Error deleting data:", error);
-    } finally {
-      setLoadingStates((prevLoadingStates) => {
-        const updatedLoadingStates = [...prevLoadingStates];
-        updatedLoadingStates[index] = false;
-        return updatedLoadingStates;
-      });
-    }
+  const handleDelete = async (_id) => {
+    deleteMutation.mutate(_id);
   };
 
   const formatDate = (dateString) => {
@@ -109,7 +89,7 @@ const PreviousResult = () => {
     return format(date, "MMMM dd, yyyy");
   };
 
-  const totalResults = results.length;
+  const totalResults = results?.length || 0;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
   const startIndex = (currentPage - 1) * resultsPerPage;
@@ -146,7 +126,7 @@ const PreviousResult = () => {
       <section className="flex items-center justify-center mt-10">
         {session ? (
           <Button type="button" onClick={handleAddResult}>
-            {loadingAddPage ? (
+            {router.pathname === "/add-result-noon" ? (
               <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
             ) : (
               "Add Previous Result"
@@ -158,7 +138,7 @@ const PreviousResult = () => {
           </div>
         )}
       </section>
-      {loadingPreviousResult ? (
+      {isLoading ? (
         <SkeletonTable />
       ) : (
         <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
@@ -174,23 +154,21 @@ const PreviousResult = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {results.slice(startIndex, endIndex).map((result, index) => (
+              {results?.slice(startIndex, endIndex).map((result) => (
                 <TableRow key={result._id}>
                   <TableCell>{result.city}</TableCell>
                   <TableCell>{formatDate(result.date)}</TableCell>
                   <TableCell>{result.fr}</TableCell>
                   <TableCell>{result.sr}</TableCell>
                   {session && (
-                    <TableCell className=" sm:w-auto">
+                    <TableCell className="sm:w-auto">
                       <div>
                         <Button
                           variant="destructive"
-                          onClick={() =>
-                            handleDelete(result._id, startIndex + index)
-                          }
-                          disabled={loadingStates[startIndex + index]}
+                          onClick={() => handleDelete(result._id)}
+                          disabled={deleteMutation.isLoading}
                         >
-                          {loadingStates[startIndex + index] ? (
+                          {deleteMutation.isLoading ? (
                             <ClipLoader
                               size={20}
                               color={"#fff"}

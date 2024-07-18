@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,12 +23,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-import { z } from "zod"; // Import z function from Zod
-
+import { z } from "zod";
 import NotificationContext from "@/store/notification-store";
 import Head from "next/head";
 
@@ -42,6 +41,8 @@ const AddResult = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     city: "",
     date: "",
@@ -54,7 +55,29 @@ const AddResult = () => {
     fr: "",
     sr: "",
   });
-  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
+
+  const addResultMutation = useMutation(
+    (data) => axios.post("/api/addresult", data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("previousResults");
+        notificationctx.showNotification({
+          title: "Result Added Successfully",
+          description: "Success",
+          variant: "blackToast",
+        });
+        router.push("/previous-result");
+      },
+      onError: (error) => {
+        notificationctx.showNotification({
+          title: "Error adding result",
+          description: "Check fields",
+          variant: "destructive",
+        });
+        console.error("Error adding result:", error);
+      },
+    }
+  );
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,36 +85,13 @@ const AddResult = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
-      schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/addresult", formData);
-      setFormData({
-        city: "",
-        date: "",
-        fr: "",
-        sr: "",
-      });
-      notificationctx.showNotification({
-        title: "Result Added Successfully",
-        description: "Success",
-        variant: "blackToast",
-      });
-      console.log("Result added successfully!");
-      router.push("/previous-result");
+      schema.parse(formData);
+      addResultMutation.mutate(formData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
-      } else {
-        notificationctx.showNotification({
-          title: "Error adding result",
-          description: "Check fields",
-          variant: "destructive",
-        });
-        console.error("Error adding result:", error);
       }
-    } finally {
-      setLoadingAddResult(false); // Reset loading state after form submission (whether successful or not)
     }
   };
 
@@ -216,8 +216,11 @@ const AddResult = () => {
                     <Button variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
-                    <Button type="submit">
-                      {loadingAddResult ? (
+                    <Button
+                      type="submit"
+                      disabled={addResultMutation.isLoading}
+                    >
+                      {addResultMutation.isLoading ? (
                         <ClipLoader
                           size={20}
                           color={`#000 dark:#000`}

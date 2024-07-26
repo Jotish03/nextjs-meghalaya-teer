@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   Table,
@@ -36,6 +36,8 @@ const CommonNumber = () => {
   const notificationctx = useContext(NotificationContext);
   const queryClient = useQueryClient();
 
+  const [loadingItems, setLoadingItems] = useState({});
+
   const {
     data: roundOneResults,
     isLoading: isLoadingRoundOne,
@@ -51,20 +53,25 @@ const CommonNumber = () => {
   const deleteRoundOneMutation = useMutation(
     (_id) => axios.delete(`/api/common-number/rone/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundOneResults");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -72,20 +79,25 @@ const CommonNumber = () => {
   const deleteRoundTwoMutation = useMutation(
     (_id) => axios.delete(`/api/common-number/rtwo/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundTwoResults");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -124,7 +136,6 @@ const CommonNumber = () => {
           name="description"
           content="Check out the Meghalaya Teer morning common number analysis along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
         />
-        {/* ... (rest of the meta tags remain unchanged) */}
       </Head>
 
       <header className="flex flex-wrap items-center justify-center mt-14">
@@ -160,9 +171,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundOneDelete(result._id)}
-                        disabled={deleteRoundOneMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundOneMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />
@@ -204,9 +215,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundTwoDelete(result._id)}
-                        disabled={deleteRoundTwoMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundTwoMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />

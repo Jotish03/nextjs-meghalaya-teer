@@ -34,6 +34,7 @@ const PreviousResult = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const [deletingId, setDeletingId] = useState(null);
 
   const resultsPerPage = 10;
 
@@ -60,6 +61,7 @@ const PreviousResult = () => {
           description: "Data deleted!",
           variant: "destructive",
         });
+        setDeletingId(null);
       },
       onError: (error) => {
         notificationctx.showNotification({
@@ -67,6 +69,7 @@ const PreviousResult = () => {
           description: error.message || "Error has occurred",
           variant: "destructive",
         });
+        setDeletingId(null);
       },
     }
   );
@@ -81,6 +84,7 @@ const PreviousResult = () => {
   };
 
   const handleDelete = async (_id) => {
+    setDeletingId(_id);
     deleteMutation.mutate(_id);
   };
 
@@ -126,11 +130,7 @@ const PreviousResult = () => {
       <section className="flex items-center justify-center mt-10">
         {session ? (
           <Button type="button" onClick={handleAddResult}>
-            {router.pathname === "/add-result-eve" ? (
-              <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
-            ) : (
-              "Add Previous Result"
-            )}
+            Add Previous Result
           </Button>
         ) : (
           <div className="font-bold">
@@ -166,9 +166,9 @@ const PreviousResult = () => {
                         <Button
                           variant="destructive"
                           onClick={() => handleDelete(result._id)}
-                          disabled={deleteMutation.isLoading}
+                          disabled={deletingId === result._id}
                         >
-                          {deleteMutation.isLoading ? (
+                          {deletingId === result._id ? (
                             <ClipLoader
                               size={20}
                               color={"#fff"}

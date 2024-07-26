@@ -1,6 +1,5 @@
 import React from "react";
-import DarkModeToggle from "../dark-mode-toggle";
-import { Button } from "../ui/button";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
@@ -36,22 +35,11 @@ const NavigationBar = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        {/* {!session && (
-          <Button
-            type="button"
-            variant="outline"
-            className="mr-2"
-            onClick={handleLoginButtonRoute}
-          >
-            Login
-          </Button>
-        )} */}
         {session && (
           <>
             <Profile />
           </>
         )}
-        {/* <DarkModeToggle /> */}
       </div>
     </main>
   );

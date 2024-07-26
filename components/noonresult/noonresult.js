@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Loading from "@/pages/loading";
@@ -149,8 +148,14 @@ const NoonResultTable = () => {
                   setResult={setMorningInput}
                   onUpdate={() => handleUpdate("morning")}
                   onDelete={() => handleDelete("morning")}
-                  isUpdating={updateMutation.isLoading}
-                  isDeleting={deleteMutation.isLoading}
+                  isUpdating={
+                    updateMutation.isLoading &&
+                    updateMutation.variables?.type === "morning"
+                  }
+                  isDeleting={
+                    deleteMutation.isLoading &&
+                    deleteMutation.variables === "morning"
+                  }
                   session={session}
                 />
               </TableCell>
@@ -160,8 +165,14 @@ const NoonResultTable = () => {
                   setResult={setEveningInput}
                   onUpdate={() => handleUpdate("evening")}
                   onDelete={() => handleDelete("evening")}
-                  isUpdating={updateMutation.isLoading}
-                  isDeleting={deleteMutation.isLoading}
+                  isUpdating={
+                    updateMutation.isLoading &&
+                    updateMutation.variables?.type === "evening"
+                  }
+                  isDeleting={
+                    deleteMutation.isLoading &&
+                    deleteMutation.variables === "evening"
+                  }
                   session={session}
                 />
               </TableCell>
@@ -192,7 +203,7 @@ const ResultCell = ({
           onChange={(e) => setResult(e.target.value)}
         />
         <div className="flex gap-1 mt-4">
-          <Button onClick={onUpdate} disabled={isUpdating}>
+          <Button onClick={onUpdate} disabled={isUpdating || isDeleting}>
             {isUpdating ? (
               <ClipLoader size={20} color={"#000"} loading={true} />
             ) : (
@@ -202,7 +213,7 @@ const ResultCell = ({
           <Button
             variant="destructive"
             onClick={onDelete}
-            disabled={isDeleting}
+            disabled={isUpdating || isDeleting}
           >
             {isDeleting ? (
               <ClipLoader size={20} color={"#fff"} loading={true} />

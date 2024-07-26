@@ -44,7 +44,6 @@ const HeroSection = () => {
     refetchInterval: 60000, // Refetch every minute
   });
 
-  // Synchronize input fields with fetched data
   useEffect(() => {
     if (data) {
       setMorningInput(data.morningResult);
@@ -67,7 +66,6 @@ const HeroSection = () => {
   const updateMutation = useMutation(updateResult, {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries("results");
-      // Update local state immediately
       if (variables.type === "morning") {
         setMorningInput(variables.result);
       } else {
@@ -91,7 +89,6 @@ const HeroSection = () => {
   const deleteMutation = useMutation(deleteResult, {
     onSuccess: (_, type) => {
       queryClient.invalidateQueries("results");
-      // Reset local state immediately
       if (type === "morning") {
         setMorningInput("XX");
       } else {
@@ -151,8 +148,14 @@ const HeroSection = () => {
                     setInput={setMorningInput}
                     onUpdate={() => handleUpdate("morning")}
                     onDelete={() => handleDelete("morning")}
-                    isUpdating={updateMutation.isLoading}
-                    isDeleting={deleteMutation.isLoading}
+                    isUpdating={
+                      updateMutation.isLoading &&
+                      updateMutation.variables?.type === "morning"
+                    }
+                    isDeleting={
+                      deleteMutation.isLoading &&
+                      deleteMutation.variables === "morning"
+                    }
                     session={session}
                   />
                 </TableCell>
@@ -162,8 +165,14 @@ const HeroSection = () => {
                     setInput={setEveningInput}
                     onUpdate={() => handleUpdate("evening")}
                     onDelete={() => handleDelete("evening")}
-                    isUpdating={updateMutation.isLoading}
-                    isDeleting={deleteMutation.isLoading}
+                    isUpdating={
+                      updateMutation.isLoading &&
+                      updateMutation.variables?.type === "evening"
+                    }
+                    isDeleting={
+                      deleteMutation.isLoading &&
+                      deleteMutation.variables === "evening"
+                    }
                     session={session}
                   />
                 </TableCell>
@@ -197,7 +206,7 @@ const ResultCell = ({
           onChange={(e) => setInput(e.target.value)}
         />
         <div className="flex gap-1 mt-4">
-          <Button onClick={onUpdate} disabled={isUpdating}>
+          <Button onClick={onUpdate} disabled={isUpdating || isDeleting}>
             {isUpdating ? (
               <ClipLoader size={20} color={"#000"} loading={true} />
             ) : (
@@ -207,7 +216,7 @@ const ResultCell = ({
           <Button
             variant="destructive"
             onClick={onDelete}
-            disabled={isDeleting}
+            disabled={isUpdating || isDeleting}
           >
             {isDeleting ? (
               <ClipLoader size={20} color={"#fff"} loading={true} />

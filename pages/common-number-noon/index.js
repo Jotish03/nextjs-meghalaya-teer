@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   Table,
@@ -35,6 +35,7 @@ const CommonNumber = () => {
   const router = useRouter();
   const notificationctx = useContext(NotificationContext);
   const queryClient = useQueryClient();
+  const [loadingItems, setLoadingItems] = useState({});
 
   const {
     data: roundOneResults,
@@ -51,20 +52,25 @@ const CommonNumber = () => {
   const deleteRoundOneMutation = useMutation(
     (_id) => axios.delete(`/api/common-number-noon/rone/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundOneData");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -72,20 +78,25 @@ const CommonNumber = () => {
   const deleteRoundTwoMutation = useMutation(
     (_id) => axios.delete(`/api/common-number-noon/rtwo/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundTwoData");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -177,9 +188,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundOneDelete(result._id)}
-                        disabled={deleteRoundOneMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundOneMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />
@@ -221,9 +232,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundTwoDelete(result._id)}
-                        disabled={deleteRoundTwoMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundTwoMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />
@@ -237,9 +248,9 @@ const CommonNumber = () => {
           </Table>
         </section>
 
-        <div className="mt-4 text-center  ">
+        <div className="mt-4 text-center">
           <p className="text-[15px] font-thin text-black">
-            Disclaimer : These common numbers are purely based on certain
+            Disclaimer: These common numbers are purely based on certain
             calculations done using past results. There is no guarantee of the
             accuracy of these numbers.
           </p>

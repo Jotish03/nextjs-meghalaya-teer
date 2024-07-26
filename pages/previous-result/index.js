@@ -34,6 +34,7 @@ const PreviousResult = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const [deletingId, setDeletingId] = useState(null);
 
   const resultsPerPage = 10;
 
@@ -58,6 +59,7 @@ const PreviousResult = () => {
         description: "Data deleted!",
         variant: "destructive",
       });
+      setDeletingId(null);
     },
     onError: (error) => {
       notificationctx.showNotification({
@@ -65,6 +67,7 @@ const PreviousResult = () => {
         description: error.message || "Error has occurred",
         variant: "destructive",
       });
+      setDeletingId(null);
     },
   });
 
@@ -78,6 +81,7 @@ const PreviousResult = () => {
   };
 
   const handleDelete = async (_id) => {
+    setDeletingId(_id);
     deleteMutation.mutate(_id);
   };
 
@@ -161,9 +165,9 @@ const PreviousResult = () => {
                         <Button
                           variant="destructive"
                           onClick={() => handleDelete(result._id)}
-                          disabled={deleteMutation.isLoading}
+                          disabled={deletingId === result._id}
                         >
-                          {deleteMutation.isLoading ? (
+                          {deletingId === result._id ? (
                             <ClipLoader
                               size={20}
                               color={"#fff"}

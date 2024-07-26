@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   Table,
@@ -35,38 +35,42 @@ const CommonNumber = () => {
   const router = useRouter();
   const notificationctx = useContext(NotificationContext);
   const queryClient = useQueryClient();
+  const [loadingItems, setLoadingItems] = useState({});
 
   const {
     data: roundOneData,
     isLoading: isLoadingRoundOne,
     isError: isErrorRoundOne,
-    refetch: refetchRoundOne,
   } = useQuery("roundOneData", fetchRoundOneData);
 
   const {
     data: roundTwoData,
     isLoading: isLoadingRoundTwo,
     isError: isErrorRoundTwo,
-    refetch: refetchRoundTwo,
   } = useQuery("roundTwoData", fetchRoundTwoData);
 
   const deleteRoundOneMutation = useMutation(
     (_id) => axios.delete(`/api/common-number-eve/rone/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundOneData");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -74,20 +78,25 @@ const CommonNumber = () => {
   const deleteRoundTwoMutation = useMutation(
     (_id) => axios.delete(`/api/common-number-eve/rtwo/${_id}`),
     {
-      onSuccess: () => {
+      onMutate: (_id) => {
+        setLoadingItems((prev) => ({ ...prev, [_id]: true }));
+      },
+      onSuccess: (_id) => {
         queryClient.invalidateQueries("roundTwoData");
         notificationctx.showNotification({
           title: "Data Deleted",
           description: "Data deleted successfully.",
           variant: "destructive",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
-      onError: (error) => {
+      onError: (error, _id) => {
         notificationctx.showNotification({
           title: "Error!",
           description: error.message || "Error has occurred",
           variant: "error",
         });
+        setLoadingItems((prev) => ({ ...prev, [_id]: false }));
       },
     }
   );
@@ -179,9 +188,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundOneDelete(result._id)}
-                        disabled={deleteRoundOneMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundOneMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />
@@ -223,9 +232,9 @@ const CommonNumber = () => {
                       <Button
                         variant="destructive"
                         onClick={() => handleRoundTwoDelete(result._id)}
-                        disabled={deleteRoundTwoMutation.isLoading}
+                        disabled={loadingItems[result._id]}
                       >
-                        {deleteRoundTwoMutation.isLoading ? (
+                        {loadingItems[result._id] ? (
                           <ClipLoader size={20} color={"#fff"} loading={true} />
                         ) : (
                           <MdDeleteOutline size={20} />

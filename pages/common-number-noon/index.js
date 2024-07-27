@@ -156,7 +156,7 @@ const CommonNumber = () => {
       </Head>
 
       <header className="flex flex-wrap items-center justify-center mt-14">
-        <p className="font-bold text-xl">Common Number Analysis</p>
+        <p className="font-bold text-xl">Afternoon Common Number Analysis</p>
       </header>
       <main className="flex flex-col items-center justify-center gap-18 mt-8 p-4 ">
         {session && (
@@ -168,7 +168,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption>Meghalaya ROUND ONE</TableCaption>
+            <TableCaption> Meghalaya Afternoon ROUND 1</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>
@@ -212,7 +212,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption>Meghalaya ROUND 2</TableCaption>
+            <TableCaption>Meghalaya Afternoon ROUND 2</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>

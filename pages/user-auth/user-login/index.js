@@ -1,9 +1,7 @@
-// pages/userLogin.js
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,11 +15,13 @@ import NotificationContext from "@/store/notification-store";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Loading from "@/pages/loading";
+import { ClipLoader } from "react-spinners";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const router = useRouter();
 
   const notificationctx = useContext(NotificationContext);
@@ -38,6 +38,7 @@ const UserLogin = () => {
 
   const handleUserLoginAuth = async (e) => {
     e.preventDefault();
+    setIsLoggingIn(true);
 
     try {
       const result = await signIn("credentials", {
@@ -47,7 +48,6 @@ const UserLogin = () => {
       });
 
       console.log(result);
-      // Update the error state properly based on the received error
       if (result?.error) {
         notificationctx.showNotification({
           title: "Error while logging in",
@@ -68,6 +68,8 @@ const UserLogin = () => {
         description: error.message || "Error has occurred!",
         variant: "destructive",
       });
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -91,7 +93,6 @@ const UserLogin = () => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.meghalayasundayteer.com" />
-        {/* Add more meta tags as needed */}
       </Head>
 
       {loading && <Loading />}
@@ -131,7 +132,18 @@ const UserLogin = () => {
                     Cancel
                   </Button>
                 </Link>
-                <Button type="submit">Login</Button>
+
+                <Button type="submit" disabled={isLoggingIn}>
+                  {isLoggingIn ? (
+                    <ClipLoader
+                      size={20}
+                      color={`#000 dark:#000`}
+                      loading={true}
+                    />
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
               </div>
             </form>
 

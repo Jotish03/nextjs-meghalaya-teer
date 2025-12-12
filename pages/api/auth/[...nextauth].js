@@ -36,8 +36,10 @@ export default NextAuth({
 
           // Include the role property in the session object
           return {
-            ...user,
-            role: user.role, // Default role if not present
+            id: user._id,
+            email: user.email,
+            name: user.name || user.email.split("@")[0],
+            role: user.role || "user", // Default role if not present
           };
         } catch (error) {
           console.error("Error during authentication:", error);
@@ -46,4 +48,18 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      session.user.id = token.id;
+      return session;
+    },
+  },
 });

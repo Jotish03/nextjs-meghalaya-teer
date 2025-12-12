@@ -1,12 +1,11 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
-
 import Link from "next/link";
 import PreviousCardHolder from "./previous-card-holder";
 
 const PreviousList = () => {
   return (
-    <main className="flex  flex-col justify-center gap-2 p-2 mb-[250px] lg:mb-[180px] ">
+    <main className="flex flex-col justify-center gap-2 p-2">
       <div className="text-center">
         <h1 className="font-bold text-center pt-6">
           Meghalaya Previous Results
@@ -23,18 +22,7 @@ const PreviousList = () => {
             title={"Previous Morning Result"}
           />
         </Link>
-        <Link href={"/previous-result-noon"}>
-          <PreviousCardHolder
-            url="/images/pnoon.webp"
-            title={"Previous Noon Result"}
-          />
-        </Link>
-        <Link href={"/previous-result-eve"}>
-          <PreviousCardHolder
-            url="/images/peve.webp"
-            title={"Previous Eve Result"}
-          />
-        </Link>
+        {/* Noon and Evening previous results are hidden for all users */}
       </div>
     </main>
   );

@@ -181,8 +181,7 @@ const HeroSection = () => {
           </Table>
         </div>
       </main>
-      <NoonResultTable />
-      <EveningResultTable />
+      {/* Noon and Evening result tables are hidden for all users */}
     </>
   );
 };

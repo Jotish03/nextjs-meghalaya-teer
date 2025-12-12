@@ -12,44 +12,28 @@ const CardList = () => {
             title="Common Number Morning"
           />
         </Link>
-        <Link href="/common-number-noon">
-          <CardHolder
-            url="/images/commonnoon.webp"
-            title="Common Number Noon"
-          />
-        </Link>
-        <Link href="/common-number-eve">
-          <CardHolder
-            url="/images/commonevening.webp"
-            title="Common Number Evening"
-          />
-        </Link>
-      </div>
-      <div className="flex justify-center gap-1 lg:gap-2 sm:gap-1 md:gap-2">
-        <Link href="#">
-          <CardHolder url="/images/analytics.webp" title="Analytics" />
-        </Link>
-        <Link href="/dream-number">
-          <CardHolder url="/images/dreamnumber.webp" title="Dream Number" />
-        </Link>
         <Link href="/previous-list">
           <CardHolder
             url="/images/previousresults.webp"
             title="Previous Result"
           />
         </Link>
+        <Link href="/dream-number">
+          <CardHolder url="/images/dreamnumber.webp" title="Dream Number" />
+        </Link>
       </div>
       <div className="flex justify-center gap-1 lg:gap-2 sm:gap-1 md:gap-2">
+        <Link href="#">
+          <CardHolder url="/images/analytics.webp" title="Analytics" />
+        </Link>
         <Link href="#">
           <CardHolder url="/images/teercalendar.webp" title="Teer Calendar" />
         </Link>
         <Link href="#">
           <CardHolder url="/images/reputedcounter.webp" title="Common Number" />
         </Link>
-        <Link href="#">
-          <CardHolder url="/images/champions.webp" title="Champions" />
-        </Link>
       </div>
+      {/* Champions card is hidden to maintain 3x2 grid layout */}
     </main>
   );
 };

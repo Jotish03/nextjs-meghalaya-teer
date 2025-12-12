@@ -17,12 +17,11 @@ export default function Layout({ children }) {
         <link rel="icon" href="./favicon.ico" sizes="any" />
       </Head>
       {/* <ThemeProvider attribute="class" disableTransitionOnChange> */}
-      <main className="bg-[#FFF7F1]">
+      <div className="min-h-screen flex flex-col bg-[#FFF7F1]">
         <NavigationBar />
-
-        {children}
+        <main className="flex-grow">{children}</main>
         <Footer />
-      </main>
+      </div>
       <Toaster />
       {activeNotification && (
         <Notification

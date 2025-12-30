@@ -99,23 +99,26 @@ const UserRegister = () => {
   return (
     <>
       <Head>
-        <title>Register - Meghalaya Teer Result</title>
+        <title>Register - Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Register to create an account and access personalized features. Stay updated with the latest Meghalaya Teer results."
+          content="Register to create an account and access personalized features. Stay updated with the latest Morning Sunday Teer results."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, register, teer result, teer result today"
+          content="teer, morning sunday teer, register, teer result, teer result today"
         />
-        <meta name="author" content="Meghalaya Teer Result Team" />
-        <meta property="og:title" content="Register - Meghalaya Teer Result" />
+        <meta name="author" content="Morning Sunday Teer Result Team" />
+        <meta
+          property="og:title"
+          content="Register - Morning Sunday Teer Result"
+        />
         <meta
           property="og:description"
-          content="Register to create an account and access personalized features. Stay updated with the latest Meghalaya Teer results."
+          content="Register to create an account and access personalized features. Stay updated with the latest Morning Sunday Teer results."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.meghalayasundayteer.com" />
+        <meta property="og:url" content="https://morningsundayteer.today" />
         {/* Add more meta tags as needed */}
       </Head>
 
@@ -201,7 +204,7 @@ const UserRegister = () => {
               )}
               <div className="flex items-center justify-center mt-8">
                 <Label className="font-thin text-gray-400">
-                  Secure Admin Register: Meghalaya Teer{" "}
+                  Secure Admin Register: Morning Sunday Teer{" "}
                 </Label>
               </div>
             </CardContent>

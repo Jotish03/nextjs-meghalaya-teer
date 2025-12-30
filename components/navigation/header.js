@@ -29,7 +29,7 @@ const NavigationBar = () => {
         </Link>
         <Link href={"/"}>
           <span className="text-center font-bold text-white">
-            Meghalaya Sunday Teer
+            Morning Sunday Teer
           </span>
         </Link>
       </div>

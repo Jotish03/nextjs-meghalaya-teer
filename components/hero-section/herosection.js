@@ -127,7 +127,7 @@ const HeroSection = () => {
         <Announcement />
         <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 pl-10 pr-10 pb-5">
           <h1 className="text-center mb-2 font-medium">
-            Meghalaya Morning Result
+            Morning Sunday Result
           </h1>
           <Table className="border-2">
             <TableHeader>

@@ -10,16 +10,14 @@ const Loading = () => {
             <div className="absolute inset-0 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
             <div className="absolute inset-2 border-4 border-white border-b-transparent rounded-full animate-spin animate-reverse"></div>
             <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center">
-              <span className="text-[#99e4af] font-bold text-sm sm:text-lg">
-                MT
-              </span>
+              {/* Removed MT initial */}
             </div>
           </div>
         </div>
 
         {/* Loading Text */}
         <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-          Meghalaya Teer
+          Morning Sunday Teer
         </h2>
         <p className="text-white/80 mb-4 sm:mb-6 text-sm sm:text-base">
           Loading results...

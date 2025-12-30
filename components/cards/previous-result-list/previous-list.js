@@ -8,7 +8,7 @@ const PreviousList = () => {
     <main className="flex flex-col justify-center gap-2 p-2">
       <div className="text-center">
         <h1 className="font-bold text-center pt-6">
-          Meghalaya Previous Results
+          Morning Sunday Previous Results
         </h1>
       </div>
       <div className="flex items-center justify-center">

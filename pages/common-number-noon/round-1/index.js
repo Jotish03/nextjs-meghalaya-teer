@@ -91,28 +91,28 @@ const RoundOne = () => {
   return (
     <>
       <Head>
-        <title>Add Noon Round One: Meghalaya Teer Result</title>
+        <title>Add Noon Round One: Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Add common numbers for Noon Round One in Meghalaya Teer. Stay updated with frequently occurring numbers in the morning teer game."
+          content="Add common numbers for Noon Round One in Morning Sunday Teer. Stay updated with frequently occurring numbers in the morning teer game."
         />
         <meta
           name="keywords"
-          content="noon round one, common numbers, meghalaya teer, teer result, teer game, meghalaya teer result"
+          content="noon round one, common numbers, morning sunday teer, teer result, teer game, morning sunday teer result"
         />
-        <meta name="author" content="Meghalaya Teer Result Archive" />
+        <meta name="author" content="Morning Sunday Teer Result Archive" />
         <meta
           property="og:title"
-          content="Add Noon Round One: Meghalaya Teer Result"
+          content="Add Noon Round One: Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Add common numbers for Noon Round One in Meghalaya Teer. Stay updated with frequently occurring numbers in the morning teer game."
+          content="Add common numbers for Noon Round One in Morning Sunday Teer. Stay updated with frequently occurring numbers in the morning teer game."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/common-number-noon/round-1"
+          content="https://www.morningsundayteer.today/common-number-noon/round-1"
         />
       </Head>
 

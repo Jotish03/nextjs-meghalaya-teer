@@ -151,16 +151,12 @@ const EveningResultTable = () => {
   return (
     <main className="flex flex-col lg:mt-0 md:mt-0 flex-wrap items-center justify-center">
       <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 pl-10 pr-10 pb-5">
-        <h1 className="text-center mb-2 font-medium">
-          Meghalaya Evening Result
-        </h1>
+        <h1 className="text-center mb-2 font-medium">Morning Evening Result</h1>
         <Table className="border-2">
           <TableCaption className="text-white">
             <DateView />
           </TableCaption>
-          <TableCaption className="mt-[5px]">
-            Meghalaya Teer Result
-          </TableCaption>
+          <TableCaption className="mt-[5px]">Morning Teer Result</TableCaption>
           <TableHeader>
             <TableRow className="bg-[#99e4af]">
               <TableHead className="w-[100px] text-center font-bold text-black">

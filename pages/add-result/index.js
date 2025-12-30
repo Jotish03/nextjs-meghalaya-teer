@@ -103,26 +103,26 @@ const AddResult = () => {
   return (
     <>
       <Head>
-        <title>Add Morning Round Result: Meghalaya Teer Result</title>
+        <title>Add Morning Round Result: Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Submit teer results to contribute to the Meghalaya Teer community. Stay engaged and help others stay updated with the latest teer results for the morning round."
+          content="Submit teer results to contribute to the Morning Sunday Teer community. Stay engaged and help others stay updated with the latest teer results for the morning round."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, add result, teer result submission, teer result contribution, morning round result"
+          content="teer, morning sunday teer, add result, teer result submission, teer result contribution, morning round result"
         />
-        <meta name="author" content="Meghalaya Teer Result Team" />
+        <meta name="author" content="Morning Sunday Teer Result Team" />
         <meta
           property="og:title"
-          content="Add Morning Round Result - Meghalaya Teer Result"
+          content="Add Morning Round Result - Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Submit teer results to contribute to the Meghalaya Teer community. Stay engaged and help others stay updated with the latest teer results for the morning round."
+          content="Submit teer results to contribute to the Morning Sunday Teer community. Stay engaged and help others stay updated with the latest teer results for the morning round."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.meghalayasundayteer.com" />
+        <meta property="og:url" content="https://www.morningsundayteer.today" />
         {/* Add more meta tags as needed */}
       </Head>
 

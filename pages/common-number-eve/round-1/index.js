@@ -89,28 +89,28 @@ const RoundOne = () => {
   return (
     <>
       <Head>
-        <title>Add Evening Round One: Meghalaya Teer Result</title>
+        <title>Add Evening Round One: Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Add round one data for Evening Meghalaya Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
+          content="Add round one data for Evening Morning Sunday Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, teer result, teer result history, teer result archive, common number analysis, add round one, evening teer result"
+          content="teer, morning sunday teer, teer result, teer result history, teer result archive, common number analysis, add round one, evening teer result"
         />
-        <meta name="author" content="Meghalaya Teer Result Archive" />
+        <meta name="author" content="Morning Sunday Teer Result Archive" />
         <meta
           property="og:title"
-          content="Add Evening Round One: Meghalaya Teer Result"
+          content="Add Evening Round One: Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Add round one data for Evening Meghalaya Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
+          content="Add round one data for Evening Morning Sunday Teer results and explore common number analysis. Stay informed with frequently occurring numbers in the teer game."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/add-evening-round-one"
+          content="https://www.morningsundayteer.today/add-evening-round-one"
         />
       </Head>
 

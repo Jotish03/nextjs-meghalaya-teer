@@ -130,28 +130,28 @@ const CommonNumber = () => {
   return (
     <>
       <Head>
-        <title>Afternoon Common Numbers: Meghalaya Teer Result</title>
+        <title>Afternoon Common Numbers: Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Discover common numbers associated with afternoon Meghalaya Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
+          content="Discover common numbers associated with afternoon Morning Sunday Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
         />
         <meta
           name="keywords"
-          content="afternoon common numbers, meghalaya teer, common number list, common number, common number result, common number results, afternoon teer result, afternoon teer game, common numbers, meghalaya teer result"
+          content="afternoon common numbers, morning sunday teer, common number list, common number, common number result, common number results, afternoon teer result, afternoon teer game, common numbers, morning sunday teer result"
         />
-        <meta name="author" content="Meghalaya Teer Result Archive" />
+        <meta name="author" content="Morning Sunday Teer Result Archive" />
         <meta
           property="og:title"
-          content="Afternoon Common Numbers: Meghalaya Teer Result"
+          content="Afternoon Common Numbers: Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Discover common numbers associated with afternoon Meghalaya Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
+          content="Discover common numbers associated with afternoon Morning Sunday Teer results. Stay updated with frequently occurring numbers in the afternoon teer game."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/common-number-noon"
+          content="https://www.morningsundayteer.today/common-number-noon"
         />
       </Head>
 
@@ -168,7 +168,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption> Meghalaya Afternoon ROUND 1</TableCaption>
+            <TableCaption> Morning Sunday Afternoon ROUND 1</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>
@@ -212,7 +212,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption>Meghalaya Afternoon ROUND 2</TableCaption>
+            <TableCaption>Morning Sunday Afternoon ROUND 2</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>

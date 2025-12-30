@@ -76,23 +76,26 @@ const UserLogin = () => {
   return (
     <>
       <Head>
-        <title>Login - Meghalaya Teer Result</title>
+        <title>Login - Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Login to access personalized features and stay updated with the latest Meghalaya Teer results."
+          content="Login to access personalized features and stay updated with the latest Morning Sunday Teer results."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, login, teer result, teer result today"
+          content="teer, morning sunday teer, login, teer result, teer result today"
         />
-        <meta name="author" content="Meghalaya Teer Result Team" />
-        <meta property="og:title" content="Login - Meghalaya Teer Result" />
+        <meta name="author" content="Morning Sunday Teer Result Team" />
+        <meta
+          property="og:title"
+          content="Login - Morning Sunday Teer Result"
+        />
         <meta
           property="og:description"
-          content="Login to access personalized features and stay updated with the latest Meghalaya Teer results."
+          content="Login to access personalized features and stay updated with the latest Morning Sunday Teer results."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.meghalayasundayteer.com" />
+        <meta property="og:url" content="https://morningsundayteer.today" />
       </Head>
 
       {loading && <Loading />}
@@ -149,7 +152,7 @@ const UserLogin = () => {
 
             <div className="flex items-center justify-center mt-8">
               <Label className="font-thin text-gray-400">
-                Secure Admin Login: Meghalaya Teer{" "}
+                Secure Admin Login: Morning Sunday Teer{" "}
               </Label>
             </div>
           </CardContent>

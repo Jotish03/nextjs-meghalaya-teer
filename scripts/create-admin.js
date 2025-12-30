@@ -9,7 +9,8 @@ async function createAdminUser() {
     const db = client.db("nextjsteer");
     const collection = db.collection("users");
 
-    const adminEmail = process.env.ADMIN_EMAIL || "admin@meghalayateer.com";
+    const adminEmail =
+      process.env.ADMIN_EMAIL || "admin@morningsundayteer.today";
     const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
 
     // Check if admin user already exists

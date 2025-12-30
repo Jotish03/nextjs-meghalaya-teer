@@ -102,28 +102,30 @@ const PreviousResult = () => {
   return (
     <>
       <Head>
-        <title>Evening Previous Teer Results - Meghalaya Teer Result</title>
+        <title>
+          Evening Previous Teer Results - Morning Sunday Teer Result
+        </title>
         <meta
           name="description"
-          content="Check out the previous Meghalaya Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="Check out the previous Morning Sunday Teer results along with results from other teer regions in India. Stay informed with the past teer results."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, evening teer, evening teer result, result evening, evening results, teer result, previous teer result, teer result history, teer result archive"
+          content="teer, morning sunday teer, evening teer, evening teer result, result evening, evening results, teer result, previous teer result, teer result history, teer result archive"
         />
-        <meta name="author" content="Meghalaya Teer Result Archive" />
+        <meta name="author" content="Morning Sunday Teer Result Archive" />
         <meta
           property="og:title"
-          content="Evening Previous Teer Results - Meghalaya Teer Result"
+          content="Evening Previous Teer Results - Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Check out the evening previous Meghalaya Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="Check out the evening previous Morning Sunday Teer results along with results from other teer regions in India. Stay informed with the past teer results."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/previous-result-eve"
+          content="https://morningsundayteer.today/previous-result-eve"
         />
       </Head>
 

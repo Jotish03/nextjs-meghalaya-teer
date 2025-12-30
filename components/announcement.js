@@ -94,7 +94,7 @@ const Announcement = () => {
     <main className="flex flex-col items-center justify-center gap-4 p-6">
       <div className="text-center">
         <h4 className="text-lg font-medium leading-none">
-          Meghalaya Sunday Teer Announcement
+          Morning Sunday Teer Announcement
         </h4>
       </div>
       <Separator className="my-2 w-48" />

@@ -12,7 +12,7 @@ const CardList = () => {
             title="Common Number Morning"
           />
         </Link>
-        <Link href="/previous-list">
+        <Link href="/previous-result">
           <CardHolder
             url="/images/previousresults.webp"
             title="Previous Result"

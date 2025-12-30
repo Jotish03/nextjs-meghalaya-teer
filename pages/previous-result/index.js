@@ -26,7 +26,6 @@ import NotificationContext from "@/store/notification-store";
 import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import BottomCard from "@/components/cards/cardbottom";
 
 const PreviousResult = () => {
   const router = useRouter();
@@ -101,28 +100,28 @@ const PreviousResult = () => {
   return (
     <>
       <Head>
-        <title>Morning Previous Teer Results - Meghalaya Teer Result</title>
+        <title>Morning Sunday Teer Previous Results - Direct Results</title>
         <meta
           name="description"
-          content="Check out the morning previous Meghalaya Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="View direct Morning Sunday Teer previous results. Complete archive of morning teer results with detailed information and history."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, morning results, morning result, morning, morning teer results, morning teer result, teer result, previous teer result, teer result history, teer result archive"
+          content="morning sunday teer, previous results, teer results, morning teer archive, teer history, direct results, morning sunday teer previous"
         />
-        <meta name="author" content="Meghalaya Teer Result Archive" />
+        <meta name="author" content="Morning Sunday Teer Result Archive" />
         <meta
           property="og:title"
-          content="Morning Previous Teer Results - Meghalaya Teer Result"
+          content="Morning Sunday Teer Previous Results - Direct Results"
         />
         <meta
           property="og:description"
-          content="Check out the morning previous Meghalaya Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+          content="View direct Morning Sunday Teer previous results. Complete archive of morning teer results with detailed information and history."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/previous-result"
+          content="https://morningsundayteer.today/previous-result"
         />
       </Head>
 
@@ -132,8 +131,13 @@ const PreviousResult = () => {
             Add Previous Result
           </Button>
         ) : (
-          <div className="font-bold">
-            <h1>Morning Previous Result</h1>
+          <div className="font-bold text-center">
+            <h1 className="text-2xl mb-2">
+              Morning Sunday Teer Previous Results
+            </h1>
+            <p className="text-gray-600">
+              Direct results from Morning Sunday Teer
+            </p>
           </div>
         )}
       </section>
@@ -142,7 +146,7 @@ const PreviousResult = () => {
       ) : (
         <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
           <Table>
-            <TableCaption>Morning Previous Result</TableCaption>
+            <TableCaption>Morning Sunday Teer Previous Results</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">City</TableHead>
@@ -210,7 +214,6 @@ const PreviousResult = () => {
           </Pagination>
         </section>
       )}
-      <BottomCard />
     </>
   );
 };

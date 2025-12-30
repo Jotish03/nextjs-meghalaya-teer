@@ -15,31 +15,31 @@ const TableDemo = () => {
   return (
     <>
       <Head>
-        <title>Dream Number Analysis - Meghalaya Teer Result</title>
+        <title>Dream Number Analysis - Morning Sunday Teer Result</title>
         <meta
           name="description"
-          content="Explore dream number meanings associated with Meghalaya Teer results and interpretations. Stay informed with analyses from various teer regions in India."
+          content="Explore dream number meanings associated with Morning Sunday Teer results and interpretations. Stay informed with analyses from various teer regions in India."
         />
         <meta
           name="keywords"
-          content="teer, meghalaya teer, dreams, dream number result, dream number list, what is dream number, what is dream number in teer, what is dream number in teer games, dream data, dream numbers, dream number, dream number analysis, teer result analysis, teer result interpretation"
+          content="teer, morning sunday teer, dreams, dream number result, dream number list, what is dream number, what is dream number in teer, what is dream number in teer games, dream data, dream numbers, dream number, dream number analysis, teer result analysis, teer result interpretation"
         />
         <meta
           name="author"
-          content="Meghalaya Teer Dream Number Analysis List"
+          content="Morning Sunday Teer Dream Number Analysis List"
         />
         <meta
           property="og:title"
-          content="Dream Number Analysis - Meghalaya Teer Result"
+          content="Dream Number Analysis - Morning Sunday Teer Result"
         />
         <meta
           property="og:description"
-          content="Explore dream number meanings associated with Meghalaya Teer results and interpretations. Stay informed with analyses from various teer regions in India."
+          content="Explore dream number meanings associated with Morning Sunday Teer results and interpretations. Stay informed with analyses from various teer regions in India."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.meghalayasundayteer.com/dream-number"
+          content="https://www.morningsundayteer.today/dream-number"
         />
       </Head>
 

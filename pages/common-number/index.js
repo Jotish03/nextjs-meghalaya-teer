@@ -131,10 +131,12 @@ const CommonNumber = () => {
   return (
     <>
       <Head>
-        <title>Morning Common Number Analysis: Meghalaya Teer Result</title>
+        <title>
+          Morning Common Number Analysis: Morning Sunday Teer Result
+        </title>
         <meta
           name="description"
-          content="Check out the Meghalaya Teer morning common number analysis along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+          content="Check out the Morning Sunday Teer morning common number analysis along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
         />
       </Head>
 
@@ -151,7 +153,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption>Meghalaya Morning ROUND 1</TableCaption>
+            <TableCaption>Morning Sunday Morning ROUND 1</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>
@@ -195,7 +197,7 @@ const CommonNumber = () => {
         )}
         <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
           <Table className="border-2">
-            <TableCaption>Meghalaya Morning ROUND 2</TableCaption>
+            <TableCaption>Morning Sunday Morning ROUND 2</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Direct</TableHead>

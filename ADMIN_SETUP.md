@@ -11,7 +11,7 @@
    NEXTAUTH_SECRET=your-nextauth-secret-key-for-development
    NEXTAUTH_URL=http://localhost:3000
    MONGODB_URI=mongodb://localhost:27017/nextjsteer
-   ADMIN_EMAIL=admin@meghalayateer.com
+   ADMIN_EMAIL=admin@morningsundayteer.today
    ADMIN_PASSWORD=admin123
    ```
 
@@ -34,8 +34,8 @@ When logged in as an admin user, the following features are hidden:
 
 ### Home Page
 
-- Meghalaya Noon Result section
-- Meghalaya Evening Result section
+- Morning Noon Result section
+- Morning Evening Result section
 - Common Number Noon card
 - Common Number Evening card
 
@@ -57,7 +57,7 @@ The following routes are automatically blocked for admin users:
 
 ## Login Credentials
 
-- **Email**: admin@meghalayateer.com (or value from ADMIN_EMAIL in .env.local)
+- **Email**: admin@morningsundayteer.today (or value from ADMIN_EMAIL in .env.local)
 - **Password**: admin123 (or value from ADMIN_PASSWORD in .env.local)
 
 ## Development
